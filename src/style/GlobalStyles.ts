@@ -1,6 +1,4 @@
 import { createGlobalStyle } from 'styled-components';
-
-import defaultTheme from './theme';
 import RobotoFontFamily from './fonts/Roboto';
 
 export default createGlobalStyle`
@@ -19,40 +17,40 @@ export default createGlobalStyle`
     }
 
     body {
-        font-size: ${defaultTheme.typography.body.fontSize};
-        line-height: ${defaultTheme.typography.body.lineHeight};
+        font-size: ${({ theme: { typography } }) => typography.body.fontSize};
+        line-height: ${({ theme: { typography } }) => typography.body.lineHeight};
     }
 
     h1 {
-        font-size: ${defaultTheme.typography.headline1.fontSize};
-        line-height: ${defaultTheme.typography.headline1.lineHeight};
+        font-size: ${({ theme: { typography } }) => typography.headline1.fontSize};
+        line-height: ${({ theme: { typography } }) => typography.headline1.lineHeight};
     }
 
     h2 {
-        font-size: ${defaultTheme.typography.headline2.fontSize};
-        line-height: ${defaultTheme.typography.headline2.lineHeight};
+        font-size: ${({ theme: { typography } }) => typography.headline2.fontSize};
+        line-height: ${({ theme: { typography } }) => typography.headline2.lineHeight};
     }
 
     h3 {
-        font-size: ${defaultTheme.typography.subHeadline1.fontSize};
-        line-height: ${defaultTheme.typography.subHeadline1.lineHeight};
+        font-size: ${({ theme: { typography } }) => typography.subHeadline1.fontSize};
+        line-height: ${({ theme: { typography } }) => typography.subHeadline1.lineHeight};
     }
 
     h4 {
-        font-size: ${defaultTheme.typography.subHeadline2.fontSize};
-        line-height: ${defaultTheme.typography.subHeadline2.lineHeight};
+        font-size: ${({ theme: { typography } }) => typography.subHeadline2.fontSize};
+        line-height: ${({ theme: { typography } }) => typography.subHeadline2.lineHeight};
     }
 
     label {
-        font-size: ${defaultTheme.typography.label.fontSize};
-        line-height: ${defaultTheme.typography.label.lineHeight};
+        font-size: ${({ theme: { typography } }) => typography.label.fontSize};
+        line-height: ${({ theme: { typography } }) => typography.label.lineHeight};
     }
 
     html,
     body,
     #root {
-        background-color: ${defaultTheme.palettes.greyScale.lighter.bgColor};
-        color: ${defaultTheme.palettes.greyScale.darker.bgColor};
-        font-family: ${defaultTheme.typography.body.fontFamily};
+        background-color: ${({ theme: { palettes } }) => palettes.greyScale.lighter.bgColor};
+        color: ${({ theme: { palettes } }) => palettes.greyScale.darker.bgColor};
+        font-family: ${({ theme: { typography } }) => typography.body.fontFamily};
     }
 `;

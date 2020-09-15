@@ -1,5 +1,11 @@
 import { useState } from 'react';
 
+/**
+ * Custom hook to provide functionality for toggling a component.
+ *
+ * @param isToggled The default state (toggled or not)
+ * @param onToggle Handler for `toggles`
+ */
 export default (
     isToggled = false,
     onToggle: (newState: boolean, oldState: boolean) => void = () => {},

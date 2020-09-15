@@ -1,5 +1,5 @@
 import { ChangeEvent, ReactNode } from 'react';
-import { WithClassAndId, WithCssGeneratorFunction } from '../../core/types';
+import { WithClassAndId, WithCssGeneratorFunction } from '../../core';
 
 export type ComponentProps = WithClassAndId &
     WithCssGeneratorFunction & {

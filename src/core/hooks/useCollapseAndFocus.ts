@@ -1,6 +1,12 @@
 import { RefObject, useMemo, useState } from 'react';
 import useOnClickOutside from './useOnClickOutside';
 
+/**
+ * Custom hook to provide functionality for handling the `collapsed` & `toggled` states of a component.
+ *
+ * @param wrapperRef The ref of the JSX Element / Component
+ * @param toggleOnClickInside A flag to indicate whether or not to toggle the state when clicked outside of the ref.
+ */
 export default <T extends Element>(wrapperRef: RefObject<T>, toggleOnClickInside = false) => {
     const [isCollapsed, setIsCollapsed] = useState(false);
     const [isFocused, setIsFocused] = useState(false);

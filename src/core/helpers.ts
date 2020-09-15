@@ -4,7 +4,7 @@ import classnames from 'classnames';
 import { WithClassAndId } from './types';
 
 /**
- * A helper method which will simplify the usage of `generateCss` function/prop.
+ * A helper function which will simplify the usage of `generateCss` function/prop.
  *
  * NOTE: The function/prop is usually exposed via the `WithCssGeneratorFunc` interface.
  *
@@ -15,6 +15,12 @@ function runCSSGeneratorFunction(props: any = {}) {
     return generateCss(rest);
 }
 
+/**
+ * A helper function which can be used to construct "complex" CSS identifiers for a component.
+ *
+ * @param param0 `className` and `id` props from the component
+ * @param componentClassNames An optional list of classnames (NPM package) to be appended
+ */
 function buildComponentIdAndClassNameFromProps(
     { className, id }: WithClassAndId,
     ...componentClassNames: Parameters<typeof classnames>
@@ -25,9 +31,20 @@ function buildComponentIdAndClassNameFromProps(
     };
 }
 
+/**
+ * A helper function which does nothing. It is useful when assigning as a default value for a component's prop.
+ *
+ * @param args Literally anything...
+ */
 function noop(...args: any[]) {}
 
 const uniqueIds = [];
+
+/**
+ * A helper function which can generate a unique id. (inspired by `lodash/uniqueId`)
+ *
+ * @param prefix An optional prefix for the ID
+ */
 function uniqueId(prefix = '') {
     const nextId = uniqueIds.length;
     uniqueIds[nextId] = nextId;

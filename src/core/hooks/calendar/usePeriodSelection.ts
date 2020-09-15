@@ -1,6 +1,12 @@
 import { useMemo, useState } from 'react';
 import moment, { Moment, MomentInput } from 'moment';
 
+/**
+ * A custom hook to provide `calendar data` for selecting duration.
+ *
+ * @param start The default starting date
+ * @param end The default ending date
+ */
 export default (start?: MomentInput, end?: MomentInput) => {
     const [startDate, setStartDate] = useState(start ? moment(start) : undefined);
     const [endDate, setEndDate] = useState(end ? moment(end) : undefined);

@@ -13,7 +13,7 @@ const Title = styled.div`
 
     /* Will allow for the rotation of icons when needed */
     svg {
-        margin-right: 10px;
+        margin-right: ${({ theme: { spacing } }) => spacing(2)};
         overflow: hidden;
         transform: rotate(0deg);
         transition: all 250ms ease-out;
@@ -30,11 +30,11 @@ const Content = styled.div`
 `;
 
 const Wrapper = styled(StyledPaper)`
-    padding: 15px;
+    padding: ${({ theme: { spacing } }) => spacing(3)};
 
     &.isOpen {
         ${Title} {
-            padding-bottom: 15px;
+            padding-bottom: ${({ theme: { spacing } }) => spacing(3)};
 
             svg {
                 transform: rotate(180deg);
@@ -44,17 +44,17 @@ const Wrapper = styled(StyledPaper)`
         ${Content} {
             max-height: 100%;
             opacity: 1;
-            margin-top: 10px;
+            margin-top: ${({ theme: { spacing } }) => spacing(2)};
         }
     }
 
-    ${({ theme: { breakpoints } }) => `
+    ${({ theme: { breakpoints, spacing } }) => `
         ${breakpoints.lg} {
-            padding: 20px;
+            padding: ${spacing(4)};
 
             &.isOpen {
                 ${Title} {
-                    padding-bottom: 20px;
+                    padding-bottom: ${spacing(4)};
                 }
             }
         }

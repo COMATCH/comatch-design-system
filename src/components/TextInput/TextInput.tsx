@@ -4,7 +4,7 @@ import classnames from 'classnames';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faExclamationCircle } from '@fortawesome/free-solid-svg-icons/faExclamationCircle';
 
-import { noop } from '../../core/helpers';
+import { noop } from '../../core';
 import HelperText from '../HelperText';
 import Label from '../Label';
 

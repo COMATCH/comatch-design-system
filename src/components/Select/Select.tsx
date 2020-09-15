@@ -10,8 +10,7 @@ import { faCaretDown } from '@fortawesome/free-solid-svg-icons/faCaretDown';
 import { faCheck } from '@fortawesome/free-solid-svg-icons/faCheck';
 import { faTimes } from '@fortawesome/free-solid-svg-icons/faTimes';
 
-import { noop } from '../../core/helpers';
-import { useCollapseAndFocus, useSearchOptions, useSelectOptions } from '../../core/hooks';
+import { noop, useCollapseAndFocus, useSearchOptions, useSelectOptions } from '../../core';
 import Label from '../Label';
 import HelperText from '../HelperText';
 

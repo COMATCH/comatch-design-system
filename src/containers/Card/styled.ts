@@ -1,14 +1,13 @@
 import styled from 'styled-components';
 
-import { WithCssGeneratorFunction } from '../../core/types';
-import { runCSSGeneratorFunction } from '../../core/helpers';
+import { runCSSGeneratorFunction, WithCssGeneratorFunction } from '../../core';
 import { StyledPaper } from '../Paper';
 
 const CardWrapper = styled(StyledPaper)`
     font-family: ${({ theme: { typography } }) => typography.body.fontFamily};
     font-size: ${({ theme: { typography } }) => typography.body.fontSize};
     line-height: ${({ theme: { typography } }) => typography.body.lineHeight};
-    padding: 15px;
+    padding: ${({ theme: { spacing } }) => spacing(3)};
 
     .Title {
         color: ${({ theme: { palettes } }) => palettes.primary.main.bgColor};
@@ -19,12 +18,12 @@ const CardWrapper = styled(StyledPaper)`
     }
 
     .Content {
-        margin-top: 10px;
+        margin-top: ${({ theme: { spacing } }) => spacing(2)};
     }
 
-    ${({ theme: { breakpoints } }) => `
+    ${({ theme: { breakpoints, spacing } }) => `
         ${breakpoints.lg} {
-            padding: 20px;
+            padding: ${spacing(4)};
         }
     `}
 `;
@@ -55,18 +54,18 @@ const DeckWrapper = styled.div<WithCssGeneratorFunction>`
 
     ul {
         list-style: none;
-        margin: 10px 0 0;
+        margin: ${({ theme: { spacing } }) => `${spacing(2)} 0 0`};
         padding: 0;
     }
 
     ${CardWrapper} + ${CardWrapper} {
-        margin-top: 10px;
+        margin-top: ${({ theme: { spacing } }) => spacing(2)};
     }
 
-    ${({ theme: { breakpoints } }) => `
+    ${({ theme: { breakpoints, spacing } }) => `
         ${breakpoints.lg} {
             ${CardWrapper} + ${CardWrapper} {
-                margin-top: 20px;
+                margin-top: ${spacing(4)};
             }
         }
     `}

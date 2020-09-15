@@ -1,7 +1,7 @@
 import { RefObject, useEffect, useState } from 'react';
 
 /**
- * Custom hook to provide functionality for clicking inside and out of an HTML Element.
+ * Custom hook to provide functionality for clicking `inside` and `out` of an HTML Element (component).
  *
  * @param ref The HTMLElement
  * @param onClickOutside Handler for `outside` clicks
@@ -9,8 +9,8 @@ import { RefObject, useEffect, useState } from 'react';
  */
 export default <E extends Element>(
     ref: RefObject<E>,
-    onClickOutside: (event: Event, ref: RefObject<E>) => void,
-    onClickInside: (event: Event, ref: RefObject<E>) => void = () => {},
+    onClickOutside: (event: Event, elementRef: RefObject<E>) => void,
+    onClickInside: (event: Event, elementRef: RefObject<E>) => void = () => {},
 ) => {
     const [clickedInside, setClickedInside] = useState(false);
 

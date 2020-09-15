@@ -1,6 +1,6 @@
 import React, { ReactNode } from 'react';
 import { Option as DefaultOption } from '../../core/hooks/options/types';
-import { WithClassAndId, WithCssGeneratorFunction } from '../../core/types';
+import { WithClassAndId, WithCssGeneratorFunction } from '../../core';
 import { ComponentProps as LabelProps } from '../Label/types';
 
 export type Option = DefaultOption;

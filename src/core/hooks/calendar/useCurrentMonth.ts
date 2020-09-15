@@ -2,6 +2,14 @@ import { useMemo, useState } from 'react';
 import moment, { MomentInput } from 'moment';
 import { CalendarDay } from './types';
 
+/**
+ * A custom hook to provide `calendar data` for a particular month.
+ *
+ * @param startOfWeek The day from which the weeks will start (Monday by default; `1`)
+ * @param todaysDate The date from which the hook can interpret the desired month (Today by default)
+ * @param min The earliest date which isn't disabled
+ * @param max The last date which isn't disabled
+ */
 export default (
     startOfWeek: 1 | 2 | 3 | 4 | 5 | 6 | 7 = 1,
     todaysDate?: MomentInput,

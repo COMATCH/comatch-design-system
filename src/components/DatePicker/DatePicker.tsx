@@ -9,8 +9,7 @@ import { faCalendarAlt } from '@fortawesome/free-solid-svg-icons/faCalendarAlt';
 import { faChevronLeft } from '@fortawesome/free-solid-svg-icons/faChevronLeft';
 import { faChevronRight } from '@fortawesome/free-solid-svg-icons/faChevronRight';
 
-import { noop, uniqueId } from '../../core/helpers';
-import { useCollapseAndFocus, useCurrentMonth } from '../../core/hooks';
+import { noop, uniqueId, useCollapseAndFocus, useCurrentMonth } from '../../core';
 import HelperText from '../HelperText';
 import Label from '../Label';
 

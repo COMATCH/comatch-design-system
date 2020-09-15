@@ -5,8 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCaretDown } from '@fortawesome/free-solid-svg-icons/faCaretDown';
 import { faCheck } from '@fortawesome/free-solid-svg-icons/faCheck';
 
-import { noop } from '../../core/helpers';
-import { useCollapseAndFocus, useOnClickOutside } from '../../core/hooks';
+import { noop, useCollapseAndFocus, useOnClickOutside } from '../../core';
 import HelperText from '../HelperText';
 import Label from '../Label';
 

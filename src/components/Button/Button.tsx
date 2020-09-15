@@ -1,6 +1,6 @@
 import React, { memo } from 'react';
 
-import { buildComponentIdAndClassNameFromProps, noop } from '../../core/helpers';
+import { buildComponentIdAndClassNameFromProps, noop } from '../../core';
 import { ComponentProps } from './types';
 import { Wrapper } from './styled';
 

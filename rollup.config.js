@@ -10,29 +10,19 @@ import url from 'rollup-plugin-url';
 
 import packageJson from './package.json';
 
-const globals = {
-    classnames: 'ClassNames',
-    moment: 'Moment',
-    react: 'React',
-    'react-dom': 'ReactDOM',
-    'styled-components': 'StyledComponents',
-};
-
 export default {
     input: 'src/index.ts',
-    external: [...Object.keys(packageJson.dependencies || {}), ...Object.keys(packageJson.peerDependencies || {})],
+    external: [...Object.keys(packageJson.dependencies || {})],
     output: [
         {
             file: packageJson.main,
             format: 'cjs',
             sourcemap: true,
-            globals,
         },
         {
             file: packageJson.module,
             format: 'esm',
             sourcemap: true,
-            globals,
         },
     ],
     plugins: [
@@ -41,7 +31,11 @@ export default {
             exclude: ['src/**/*.ttf', 'src/**/*.svg'],
         }),
         cleaner(),
-        resolve(),
+        resolve({
+            customResolveOptions: {
+                moduleDirectory: 'node_modules',
+            },
+        }),
         commonjs(),
         typescript({
             useTsconfigDeclarationDir: true,

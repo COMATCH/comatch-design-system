@@ -1,7 +1,6 @@
 import styled from 'styled-components';
 
-import { WithCssGeneratorFunction } from '../../core/types';
-import { runCSSGeneratorFunction } from '../../core/helpers';
+import { runCSSGeneratorFunction, WithCssGeneratorFunction } from '../../core';
 import { MessageLevel } from './types';
 
 const Wrapper = styled.div<WithCssGeneratorFunction & { level?: MessageLevel }>`

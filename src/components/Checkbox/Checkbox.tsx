@@ -3,7 +3,7 @@ import React, { memo } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheck } from '@fortawesome/free-solid-svg-icons/faCheck';
 
-import { buildComponentIdAndClassNameFromProps, noop } from '../../core/helpers';
+import { buildComponentIdAndClassNameFromProps, noop } from '../../core';
 
 import { ComponentProps } from './types';
 import { CheckboxInput, Wrapper } from './styled';

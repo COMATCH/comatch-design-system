@@ -6,7 +6,7 @@ import { faExclamationCircle } from '@fortawesome/free-solid-svg-icons/faExclama
 import { faInfoCircle } from '@fortawesome/free-solid-svg-icons/faInfoCircle';
 import { faTimesCircle } from '@fortawesome/free-solid-svg-icons/faTimesCircle';
 
-import { buildComponentIdAndClassNameFromProps } from '../../core/helpers';
+import { buildComponentIdAndClassNameFromProps } from '../../core';
 
 import { ComponentProps } from './types';
 import { Wrapper } from './styled';

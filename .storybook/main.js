@@ -49,6 +49,7 @@ module.exports = {
 
         config.resolve.extensions.push('.ts', '.tsx');
         config.resolve.modules.push(SRC, 'node_modules');
+
         return config;
     },
 };

@@ -1,5 +1,5 @@
 import { ReactNode } from 'react';
-import { WithClassAndId, WithCssGeneratorFunction } from '../../core/types';
+import { WithClassAndId, WithCssGeneratorFunction } from '../../core';
 
 export type StyledWrapperProps = WithCssGeneratorFunction & {
     inline?: boolean;

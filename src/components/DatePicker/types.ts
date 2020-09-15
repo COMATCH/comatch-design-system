@@ -1,7 +1,7 @@
 import React, { ReactNode } from 'react';
 import { Moment, MomentInput } from 'moment';
 
-import { WithClassAndId, WithCssGeneratorFunction } from '../../core/types';
+import { WithClassAndId, WithCssGeneratorFunction } from '../../core';
 import { ComponentProps as LabelProps } from '../Label/types';
 
 export type CalendarDay = {
