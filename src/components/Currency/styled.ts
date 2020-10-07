@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { FormFieldContainer } from '../styled';
+import { FormFieldContainer } from '../shared';
 
 const CurrencyIndicator = styled.div`
     border: none;

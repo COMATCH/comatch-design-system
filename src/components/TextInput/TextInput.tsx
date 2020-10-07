@@ -1,89 +1,55 @@
-import React, { ChangeEvent, memo, useMemo, useState } from 'react';
+import React, { forwardRef, memo } from 'react';
 import classnames from 'classnames';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faExclamationCircle } from '@fortawesome/free-solid-svg-icons/faExclamationCircle';
 
-import { noop } from '../../core';
-import HelperText from '../HelperText';
-import Label from '../Label';
+import { renderLabel, renderMessage } from '../shared/helpers';
 
 import { ComponentProps } from './types';
-import { Wrapper } from './styled';
+import { Input, Wrapper } from './styled';
 import { TEXTAREA } from './constants';
+import { useHandlers } from './hooks';
 
-function TextInput(props: ComponentProps) {
-    const { hasError = false, label, message, onChange = noop, value = '' } = props;
+const TextInput = forwardRef<HTMLInputElement | HTMLTextAreaElement, ComponentProps>((props, ref) => {
+    const {
+        name,
 
-    const [currentValue, setCurrentValue] = useState(value);
-    const changeCurrentValue = useMemo(
-        () => (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-            event.persist();
-            setCurrentValue(event.target.value);
-            onChange(event);
-        },
-        [onChange],
-    );
+        className,
+        disabled = false,
+        generateCss,
+        hasError = false,
+        id,
+        label,
+        message,
+        multi = false,
+        placeholder = '',
+        type = 'text',
+    } = props;
 
-    const [isFocused, setIsFocused] = useState(false);
-    const focus = useMemo(
-        () => () => {
-            setIsFocused(true);
-        },
-        [],
-    );
-    const blur = useMemo(
-        () => () => {
-            setIsFocused(false);
-        },
-        [],
-    );
-
-    const componentsProps = useMemo(() => {
-        const {
-            name,
-
-            className,
-            disabled = false,
-            generateCss,
-            id,
-            labelProps,
-            messageType,
-            multi,
-            placeholder,
-        } = props;
-
-        return {
-            wrapper: {
-                className: classnames('TextInput', className, { disabled, hasError, isFocused }),
-                generateCss,
-                id,
-            },
-            label: { ...labelProps, htmlFor: name },
-            inputWrapper: {
-                className: classnames('Field', { hasActions: !!currentValue }),
-            },
-            input: {
-                ...(multi && { as: TEXTAREA, rows: 5 }),
-                id: name,
-                name,
-                onBlur: blur,
-                onChange: changeCurrentValue,
-                onFocus: focus,
-                placeholder,
-                type: 'text',
-                value: currentValue,
-            },
-            helperText: { level: hasError ? 'error' : messageType },
-        };
-    }, [blur, changeCurrentValue, currentValue, focus, isFocused, props]);
+    const { currentValue, handleBlur, handleOnChange, handleFocus, isFocused } = useHandlers(props);
 
     return (
-        <Wrapper {...componentsProps.wrapper}>
-            {!!label && <Label {...componentsProps.label}>{label}</Label>}
+        <Wrapper
+            className={classnames('TextInput', className, { disabled, hasError, isFocused })}
+            generateCss={generateCss}
+            id={id}
+        >
+            {renderLabel(label, name)}
 
-            <div {...componentsProps.inputWrapper}>
-                <input {...componentsProps.input} />
+            <div className={classnames('Field', { hasActions: !!currentValue })}>
+                <Input
+                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                    {...(multi ? { as: TEXTAREA as any, rows: 5 } : { type })}
+                    {...(currentValue && props.onChange && { value: currentValue })}
+                    id={name}
+                    name={name}
+                    onBlur={handleBlur}
+                    onChange={handleOnChange}
+                    onFocus={handleFocus}
+                    placeholder={placeholder}
+                    ref={ref}
+                />
                 {hasError && (
                     <div className="FieldIcon ErrorIndicator">
                         <FontAwesomeIcon icon={faExclamationCircle} />
@@ -91,10 +57,10 @@ function TextInput(props: ComponentProps) {
                 )}
             </div>
 
-            {!!message && <HelperText {...componentsProps.helperText}>{message}</HelperText>}
+            {renderMessage(message, hasError)}
         </Wrapper>
     );
-}
+});
 
 export { Wrapper as StyledTextInput };
 export default memo(TextInput);

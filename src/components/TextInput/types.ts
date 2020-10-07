@@ -1,7 +1,7 @@
-import { ChangeEvent, ReactNode } from 'react';
+import { ChangeEvent, FocusEvent, ReactNode } from 'react';
 
 import { WithClassAndId, WithCssGeneratorFunction } from '../../core';
-import { ComponentProps as LabelProps } from '../Label/types';
+import { LabelWithProps, MessageWithProps } from '../shared/types';
 
 export type ComponentProps = WithClassAndId &
     WithCssGeneratorFunction & {
@@ -9,12 +9,13 @@ export type ComponentProps = WithClassAndId &
 
         disabled?: boolean;
         hasError?: boolean;
-        label?: ReactNode;
-        labelProps?: Omit<LabelProps, 'children' | 'htmlFor'>;
-        message?: ReactNode;
-        messageType?: 'success' | 'error' | 'info' | 'warning';
+        label?: ReactNode | LabelWithProps;
+        message?: ReactNode | MessageWithProps;
         multi?: boolean;
-        onChange?: (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
+        onBlur?: (event: FocusEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
+        onChange?: (args: { event?: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>; value: string }) => void;
+        onFocus?: (event: FocusEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
         placeholder?: string;
+        type?: 'email' | 'number' | 'password' | 'tel' | 'text' | 'url';
         value?: string;
     };

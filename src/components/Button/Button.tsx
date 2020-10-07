@@ -1,29 +1,34 @@
-import React, { memo } from 'react';
+import React, { forwardRef, memo } from 'react';
 
 import { buildComponentIdAndClassNameFromProps, noop } from '../../core';
 import { ComponentProps } from './types';
 import { Wrapper } from './styled';
 
-function Button({
-    children,
-    disabled = false,
-    generateCss,
-    onClick = noop,
-    secondary = false,
-    ...rest
-}: ComponentProps) {
+const Button = forwardRef<HTMLButtonElement, ComponentProps>((props, ref) => {
+    const {
+        children,
+        disabled = false,
+        generateCss,
+        onClick = noop,
+        secondary = false,
+        type = 'button',
+        ...rest
+    } = props;
+
     return (
         <Wrapper
             {...buildComponentIdAndClassNameFromProps(rest, 'Button')}
             disabled={disabled}
             generateCss={generateCss}
-            secondary={secondary}
             onClick={onClick}
+            ref={ref}
+            secondary={secondary}
+            type={type}
         >
             {children}
         </Wrapper>
     );
-}
+});
 
 export { Wrapper as StyledButton };
 export default memo(Button);

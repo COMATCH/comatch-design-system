@@ -1,6 +1,5 @@
 import styled from 'styled-components';
-import { WithCssGeneratorFunction } from '../../core/types';
-import { runCSSGeneratorFunction } from '../../core/helpers';
+import { runCSSGeneratorFunction, WithCssGeneratorFunction } from '../../../core';
 import { border, color, disabled } from './user-interactions';
 
 /**

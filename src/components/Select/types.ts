@@ -1,7 +1,8 @@
 import React, { ReactNode } from 'react';
+
 import { Option as DefaultOption } from '../../core/hooks/options/types';
 import { WithClassAndId, WithCssGeneratorFunction } from '../../core';
-import { ComponentProps as LabelProps } from '../Label/types';
+import { LabelWithProps, MessageWithProps } from '../shared';
 
 export type Option = DefaultOption;
 
@@ -15,13 +16,13 @@ export type ComponentProps = WithClassAndId &
         canClear?: boolean;
         disabled?: boolean;
         hasError?: boolean;
-        label?: ReactNode;
-        labelProps?: Omit<LabelProps, 'children' | 'htmlFor'>;
-        message?: ReactNode;
-        messageType?: 'success' | 'error' | 'info' | 'warning';
+        label?: ReactNode | LabelWithProps;
+        message?: ReactNode | MessageWithProps;
         multi?: boolean;
-        onChange?: (event: React.MouseEvent<HTMLLIElement, MouseEvent>, selectedOptions: Option[]) => void;
+        onBlur?: () => void;
+        onChange?: (args: { event?: React.MouseEvent<HTMLLIElement, MouseEvent>; value: Option[] }) => void;
         onFilterOptions?: OptionsFilter;
+        onFocus?: () => void;
         optionsToggle?: boolean;
         placeholder?: string;
         value?: Option | Option[];

@@ -2,7 +2,7 @@ import React, { ReactNode } from 'react';
 import { Moment, MomentInput } from 'moment';
 
 import { WithClassAndId, WithCssGeneratorFunction } from '../../core';
-import { ComponentProps as LabelProps } from '../Label/types';
+import { LabelWithProps, MessageWithProps } from '../shared';
 
 export type CalendarDay = {
     date: Moment;
@@ -19,17 +19,15 @@ export type ComponentProps = WithClassAndId &
 
         disabled?: boolean;
         hasError?: boolean;
-        label?: ReactNode;
-        labelProps?: Omit<LabelProps, 'children' | 'htmlFor'>;
+        label?: ReactNode | LabelWithProps;
         max?: MomentInput;
-        message?: ReactNode;
-        messageType?: 'success' | 'error' | 'info' | 'warning';
+        message?: ReactNode | MessageWithProps;
         min?: MomentInput;
         months?: [string, string, string, string, string, string, string, string, string, string, string, string];
-        onChange?: (
-            event: React.MouseEvent<HTMLLIElement, MouseEvent> | React.KeyboardEvent<HTMLInputElement>,
-            newValue?: Date,
-        ) => void;
+        onChange?: (args: {
+            event: React.MouseEvent<HTMLLIElement, MouseEvent> | React.KeyboardEvent<HTMLInputElement>;
+            value?: Date;
+        }) => void;
         placeholder?: string;
         startOfWeek?: 1 | 2 | 3 | 4 | 5 | 6 | 7;
         today?: MomentInput;

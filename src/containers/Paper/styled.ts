@@ -6,7 +6,6 @@ const Wrapper = styled.div<WithCssGeneratorFunction>`
     background-color: ${({ theme: { palettes } }) => palettes.greyScale.lighter.bgColor};
     border-radius: ${({ theme: { shapes } }) => shapes.borderRadius};
     box-shadow: ${({ theme: { shadows } }) => shadows[1]};
-    overflow: hidden;
 
     ${runCSSGeneratorFunction}
 `;

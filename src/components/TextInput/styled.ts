@@ -1,5 +1,7 @@
 import styled from 'styled-components';
-import { FormFieldContainer } from '../styled';
+import { FormFieldContainer } from '../shared';
+
+const Input = styled.input``;
 
 const Wrapper = styled(FormFieldContainer)`
     input {
@@ -18,4 +20,4 @@ const Wrapper = styled(FormFieldContainer)`
     }
 `;
 
-export { Wrapper };
+export { Input, Wrapper };

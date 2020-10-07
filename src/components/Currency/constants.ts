@@ -1,4 +1,6 @@
-import { CurrencyType } from './types';
+import { CurrencyType, FieldValue } from './types';
+
+const DEFAULT_VALUE: FieldValue = { currency: 'EUR', value: 0 };
 
 const OPTIONS: { label: CurrencyType; symbol: string }[] = [
     { label: 'EUR', symbol: '&#128;' },
@@ -7,4 +9,4 @@ const OPTIONS: { label: CurrencyType; symbol: string }[] = [
     { label: 'USD', symbol: '&#36;' },
 ];
 
-export { OPTIONS };
+export { DEFAULT_VALUE, OPTIONS };

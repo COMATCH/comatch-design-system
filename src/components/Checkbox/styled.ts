@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { FormFieldContainer } from '../styled';
+import { FormFieldContainer } from '../shared';
 
 const CheckboxInput = styled.div`
     background-color: ${({ theme: { palettes } }) => palettes.greyScale.lighter.bgColor};

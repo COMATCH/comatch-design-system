@@ -1,4 +1,4 @@
-import React, { memo } from 'react';
+import React, { forwardRef, memo } from 'react';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheckCircle } from '@fortawesome/free-solid-svg-icons/faCheckCircle';
@@ -11,7 +11,8 @@ import { buildComponentIdAndClassNameFromProps } from '../../core';
 import { ComponentProps } from './types';
 import { Wrapper } from './styled';
 
-function Alert({ children, generateCss, inline, title, type = 'info', ...rest }: ComponentProps) {
+const Alert = forwardRef<HTMLDivElement, ComponentProps>((props, ref) => {
+    const { children, generateCss, inline, title, type = 'info', ...rest } = props;
     let icon = faInfoCircle;
 
     switch (type) {
@@ -36,6 +37,7 @@ function Alert({ children, generateCss, inline, title, type = 'info', ...rest }:
             {...buildComponentIdAndClassNameFromProps(rest, 'Alert')}
             generateCss={generateCss}
             inline={inline}
+            ref={ref}
             type={type}
         >
             <FontAwesomeIcon icon={icon} />
@@ -45,7 +47,7 @@ function Alert({ children, generateCss, inline, title, type = 'info', ...rest }:
             </div>
         </Wrapper>
     );
-}
+});
 
 export { Wrapper as StyledAlert };
 export default memo(Alert);

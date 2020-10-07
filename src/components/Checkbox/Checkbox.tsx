@@ -1,4 +1,4 @@
-import React, { memo } from 'react';
+import React, { forwardRef, memo } from 'react';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheck } from '@fortawesome/free-solid-svg-icons/faCheck';
@@ -8,7 +8,7 @@ import { buildComponentIdAndClassNameFromProps, noop } from '../../core';
 import { ComponentProps } from './types';
 import { CheckboxInput, Wrapper } from './styled';
 
-function Checkbox(props: ComponentProps) {
+const Checkbox = forwardRef<HTMLInputElement, ComponentProps>((props, ref) => {
     const {
         name,
 
@@ -34,6 +34,7 @@ function Checkbox(props: ComponentProps) {
                     event.persist();
                     onChange(event, event.target.checked);
                 }}
+                ref={ref}
                 type="checkbox"
                 value={value}
             />
@@ -45,7 +46,7 @@ function Checkbox(props: ComponentProps) {
             {children}
         </Wrapper>
     );
-}
+});
 
 export { CheckboxInput as StyledCheckboxInput, Wrapper as StyledCheckbox };
 export default memo(Checkbox);

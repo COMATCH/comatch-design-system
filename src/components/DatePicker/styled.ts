@@ -1,5 +1,5 @@
 import styled, { css } from 'styled-components';
-import { FormFieldContainer } from '../styled';
+import { FormFieldContainer } from '../shared';
 
 const CellStyle = css`
     align-items: center;

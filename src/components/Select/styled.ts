@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { FormFieldContainer } from '../styled';
+import { FormFieldContainer } from '../shared';
 
 const Placeholder = styled.div`
     color: ${({ theme: { palettes } }) => palettes.greyScale.dark.bgColor};

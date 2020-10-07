@@ -7,4 +7,5 @@ export type ComponentProps = WithClassAndId &
         disabled?: boolean;
         onClick?: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
         secondary?: boolean;
+        type?: 'button' | 'reset' | 'submit';
     };

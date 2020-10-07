@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Option } from './types';
 
 /**
@@ -23,6 +23,10 @@ export default <T extends Option>(
         setSearchTerm(term);
         setOptions(filterOptions(allOptions, term));
     };
+
+    useEffect(() => {
+        setOptions([...allOptions]);
+    }, [allOptions]);
 
     return {
         clearSearch,

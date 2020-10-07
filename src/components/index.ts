@@ -1,3 +1,5 @@
+export * from './shared';
+
 export { default as Alert, StyledAlert } from './Alert';
 export { default as Button, StyledButton } from './Button';
 export { default as Checkbox, StyledCheckbox, StyledCheckboxInput } from './Checkbox';

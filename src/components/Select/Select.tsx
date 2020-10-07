@@ -2,7 +2,7 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import React, { memo, useMemo, useRef } from 'react';
+import React, { memo, useRef } from 'react';
 import classnames from 'classnames';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -10,120 +10,57 @@ import { faCaretDown } from '@fortawesome/free-solid-svg-icons/faCaretDown';
 import { faCheck } from '@fortawesome/free-solid-svg-icons/faCheck';
 import { faTimes } from '@fortawesome/free-solid-svg-icons/faTimes';
 
-import { noop, useCollapseAndFocus, useSearchOptions, useSelectOptions } from '../../core';
-import Label from '../Label';
-import HelperText from '../HelperText';
+import { noop } from '../../core';
+import { renderLabel, renderMessage } from '../shared';
 
-import { ComponentProps, Option } from './types';
-import { optionsAreEqual } from './helpers';
+import { ComponentProps } from './types';
 import { AvailableOptions, FieldWrapper, Placeholder, SelectedOptionWrapper, SelectedOptions, Wrapper } from './styled';
+import { useHandlers } from './hooks';
 
 function Select(props: ComponentProps) {
     const {
-        options,
-
         canClear = true,
+        className,
+        disabled = false,
+        generateCss,
+        hasError = false,
+        id,
         label,
         message,
         multi = false,
-        onChange: notifyListeners = () => {},
-        onFilterOptions: filterOptions = (currentOptions: Option[], term: string) => currentOptions,
-        optionsToggle = true,
+        name,
         placeholder,
-        value = [],
     } = props;
 
     const fieldWrapperRef = useRef<HTMLDivElement>(null);
-    const { isCollapsed, isFocused, toggle } = useCollapseAndFocus(fieldWrapperRef);
-    const { options: queriedOptions } = useSearchOptions(options);
-    const { optionIsSelected, options: selectedOptions, toggleOption } = useSelectOptions(
-        Array.isArray(value) ? value : [...(value ? [value] : [])],
-        optionsAreEqual,
-        multi,
-    );
+    const {
+        buildOptionHandlers,
+        buildSelectedOptionHandler,
+        isFocused,
+        isCollapsed,
+        handleToggle,
+        queriedOptions,
+        optionIsSelected,
+        selectedOptions,
+    } = useHandlers({ ...props, fieldWrapperRef });
 
-    const buildOptionHandlers = useMemo(
-        () => (option: Option) => ({
-            onClick: (event: React.MouseEvent<HTMLLIElement, MouseEvent>) => {
-                event.persist();
-                event.stopPropagation();
+    return (
+        <Wrapper
+            className={classnames('Select', className, { disabled, hasError, isFocused })}
+            generateCss={generateCss}
+            id={id}
+        >
+            {renderLabel(label, name)}
 
-                if (optionsToggle || !optionIsSelected(option)) {
-                    toggleOption(option);
-                    notifyListeners(event, selectedOptions);
-                }
-
-                if (!multi) {
-                    toggle();
-                }
-            },
-        }),
-        [multi, optionIsSelected, optionsToggle, toggle, toggleOption],
-    );
-
-    const buildSelectedOptionHandler = useMemo(
-        () => (option: Option) => ({
-            wrapper: {
-                id: option.id,
-                className: classnames({ isPill: multi }),
-            },
-            removeAction: {
-                role: 'button',
-                className: 'UserAction RemoveAction',
-                onClick: (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-                    event.stopPropagation();
-                    toggleOption(option);
-                },
-            },
-        }),
-        [multi, toggleOption],
-    );
-
-    const componentsProps = useMemo(() => {
-        const {
-            name,
-
-            className,
-            generateCss,
-            labelProps,
-            messageType,
-            disabled = false,
-            hasError = false,
-            id,
-        } = props;
-
-        return {
-            wrapper: {
-                className: classnames('Select', className, { disabled, hasError, isFocused }),
-                generateCss,
-                id,
-            },
-            label: { htmlFor: name, ...labelProps },
-            input: {
-                id: name,
-                name,
-                onChange: noop,
-                onFocus: toggle,
-                value: selectedOptions.map((option) => option.value),
-            },
-            selectWrapper: {
-                className: classnames('Field', {
+            <FieldWrapper
+                className={classnames('Field', {
                     canClear: selectedOptions.length && canClear,
                     isFocused,
                     isCollapsed,
-                }),
-                onClick: toggle,
-                ref: fieldWrapperRef,
-            },
-            helperText: { level: hasError ? 'error' : messageType },
-        };
-    }, [canClear, isCollapsed, isFocused, props, selectedOptions, toggle]);
-
-    return (
-        <Wrapper {...componentsProps.wrapper}>
-            {!!label && <Label {...componentsProps.label}>{label}</Label>}
-
-            <FieldWrapper {...componentsProps.selectWrapper}>
+                })}
+                onClick={handleToggle}
+                ref={fieldWrapperRef}
+            >
                 <SelectedOptions>
                     {!!placeholder && !selectedOptions.length && <Placeholder>{placeholder}</Placeholder>}
                     {selectedOptions.map((option) => {
@@ -165,9 +102,15 @@ function Select(props: ComponentProps) {
             </FieldWrapper>
 
             {/* This is used just to allow users to navigate by using the `tab` */}
-            <input {...componentsProps.input} />
+            <input
+                id={name}
+                name={name}
+                onChange={noop}
+                onFocus={handleToggle}
+                value={selectedOptions.map((option) => option.value).join(',')}
+            />
 
-            {message && <HelperText {...componentsProps.helperText}>{message}</HelperText>}
+            {renderMessage(message, hasError)}
         </Wrapper>
     );
 }

@@ -1,13 +1,23 @@
 import { RefObject, useMemo, useState } from 'react';
+import { noop } from '../helpers';
 import useOnClickOutside from './useOnClickOutside';
 
-/**
- * Custom hook to provide functionality for handling the `collapsed` & `toggled` states of a component.
- *
- * @param wrapperRef The ref of the JSX Element / Component
- * @param toggleOnClickInside A flag to indicate whether or not to toggle the state when clicked outside of the ref.
- */
-export default <T extends Element>(wrapperRef: RefObject<T>, toggleOnClickInside = false) => {
+export default <T extends Element>(
+    wrapperRef: RefObject<T>,
+    {
+        onBlur = noop,
+        onClickInside = noop,
+        onClickOutside = noop,
+        onFocus = noop,
+        toggleOnClickInside = false,
+    }: {
+        onBlur?: () => void;
+        onClickInside?: () => void;
+        onClickOutside?: () => void;
+        onFocus?: () => void;
+        toggleOnClickInside?: boolean;
+    } = {},
+) => {
     const [isCollapsed, setIsCollapsed] = useState(false);
     const [isFocused, setIsFocused] = useState(false);
 
@@ -17,6 +27,7 @@ export default <T extends Element>(wrapperRef: RefObject<T>, toggleOnClickInside
 
     const focusToggle = (focused = !isFocused) => {
         setIsFocused(focused);
+        (focused ? onFocus : onBlur)();
     };
 
     const collapseAndFocus = useMemo(
@@ -29,8 +40,8 @@ export default <T extends Element>(wrapperRef: RefObject<T>, toggleOnClickInside
 
     const toggle = useMemo(
         () => () => {
-            setIsCollapsed((currentlyCollapsed) => !currentlyCollapsed);
-            setIsFocused((currentlyIsFocused) => !currentlyIsFocused);
+            collapseToggle();
+            focusToggle();
         },
         [],
     );
@@ -39,11 +50,23 @@ export default <T extends Element>(wrapperRef: RefObject<T>, toggleOnClickInside
         () => () => {
             setIsCollapsed(false);
             setIsFocused(false);
+            onClickOutside();
         },
-        [],
+        [onClickOutside],
     );
 
-    useOnClickOutside(wrapperRef, handleClickOutside, toggleOnClickInside ? toggle : undefined);
+    const handleClickInside = useMemo(
+        () => () => {
+            if (toggleOnClickInside) {
+                toggle();
+            }
+
+            onClickInside();
+        },
+        [onClickInside],
+    );
+
+    useOnClickOutside(wrapperRef, handleClickOutside, handleClickInside);
 
     return {
         isCollapsed,

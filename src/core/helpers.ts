@@ -39,7 +39,6 @@ function buildComponentIdAndClassNameFromProps(
 function noop(...args: any[]) {}
 
 const uniqueIds = [];
-
 /**
  * A helper function which can generate a unique id. (inspired by `lodash/uniqueId`)
  *
@@ -51,4 +50,9 @@ function uniqueId(prefix = '') {
     return `${prefix}${nextId}`;
 }
 
-export { buildComponentIdAndClassNameFromProps, noop, runCSSGeneratorFunction, uniqueId };
+function isValidEmailAddress(email: string) {
+    const emailRegex = /^(([^<>()[\].,;:\s@"]+(\.[^<>()[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/i;
+    return emailRegex.test(email);
+}
+
+export { buildComponentIdAndClassNameFromProps, isValidEmailAddress, noop, runCSSGeneratorFunction, uniqueId };
