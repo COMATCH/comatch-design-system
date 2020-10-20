@@ -1,6 +1,13 @@
 import React, { useState } from 'react';
-import { PageWrapper } from '../../core/storybook';
-import { TextInput } from '..';
+import styled from 'styled-components';
+import { PageWrapper as DefaultPageWrapper } from '../../core/storybook';
+import { TextInput, StyledTextInput } from '..';
+
+const PageWrapper = styled(DefaultPageWrapper)`
+    ${StyledTextInput} {
+        margin: 25px;
+    }
+`;
 
 export default {
     title: 'Components/Text Input',
@@ -17,6 +24,7 @@ export const Intro = () => (
 export const Default = () => (
     <PageWrapper>
         <TextInput name="test" />
+        <TextInput multi name="test-multi" />
     </PageWrapper>
 );
 
@@ -29,6 +37,18 @@ export const WithHandlers = () => {
                 label="Test"
                 name="test"
                 message="Test"
+                onChange={(args) => {
+                    console.log('On Change:\t', args);
+                    setValue(args.value);
+                }}
+                onBlur={console.error}
+                value={value}
+            />
+            <TextInput
+                multi
+                label="Test multi"
+                name="test-multi"
+                message="Test multi liner"
                 onChange={(args) => {
                     console.log('On Change:\t', args);
                     setValue(args.value);

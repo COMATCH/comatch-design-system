@@ -31,7 +31,7 @@ const TextInput = forwardRef<HTMLInputElement | HTMLTextAreaElement, ComponentPr
 
     return (
         <Wrapper
-            className={classnames('TextInput', className, { disabled, hasError, isFocused })}
+            className={classnames('TextInput', className, { disabled, hasError, isFocused, multi })}
             generateCss={generateCss}
             id={id}
         >
@@ -42,6 +42,7 @@ const TextInput = forwardRef<HTMLInputElement | HTMLTextAreaElement, ComponentPr
                     // eslint-disable-next-line @typescript-eslint/no-explicit-any
                     {...(multi ? { as: TEXTAREA as any, rows: 5 } : { type })}
                     {...(currentValue && props.onChange && { value: currentValue })}
+                    className={classnames({ disabled, hasError, isFocused })}
                     id={name}
                     name={name}
                     onBlur={handleBlur}
