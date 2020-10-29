@@ -26,7 +26,7 @@ export const BasicLogin = () => {
     const { control, errors, handleSubmit, register } = useForm({
         mode: 'all',
         defaultValues: {
-            email: '',
+            'e-mail': '',
             password: '',
         },
     });
