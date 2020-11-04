@@ -5,12 +5,11 @@ import { STEP_HEIGHT, STEP_WIDTH } from './constants';
 function useProgressBarBase(startNode: RefObject<HTMLElement>, endNode: RefObject<HTMLElement>, vertical = false) {
     const [progressBarProps, setProgressBarProps] = useState<ProgressBar>();
 
-    useEffect(() => {
+    const progressBarBase = () => {
         if (!startNode.current || !endNode.current) {
             if (typeof progressBarProps?.length !== 'undefined') {
                 setProgressBarProps(undefined);
             }
-
             return;
         }
 
@@ -34,6 +33,14 @@ function useProgressBarBase(startNode: RefObject<HTMLElement>, endNode: RefObjec
             x: sNode.x,
             y: sNode.y,
         });
+    };
+
+    useEffect(() => {
+        progressBarBase();
+        window.addEventListener('resize', progressBarBase);
+        return () => {
+            window.removeEventListener('resize', progressBarBase);
+        };
     }, [startNode.current, endNode.current, vertical]);
 
     return progressBarProps;
