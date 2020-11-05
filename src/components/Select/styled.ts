@@ -46,8 +46,7 @@ const SelectedOptionWrapper = styled.li`
     color: ${({ theme: { palettes } }) => palettes.greyScale.darker.bgColor};
     display: flex;
     line-height: 1.5;
-    margin: ${({ theme: { spacing } }) => spacing(1)};
-    margin-left: ${({ theme: { spacing } }) => spacing(2)};
+    margin: ${({ theme: { spacing } }) => `${spacing(1)} 0 ${spacing(1)} ${spacing(1)}`};
     padding-right: ${({ theme: { spacing } }) => spacing(2)};
 
     .RemoveAction {
@@ -61,12 +60,12 @@ const SelectedOptionWrapper = styled.li`
         }
     }
 
+    &:not(.isPill) {
+        margin-left: ${({ theme: { spacing } }) => spacing(2)};
+    }
+
     &.isPill {
         border: ${({ theme: { palettes } }) => `1px solid ${palettes.greyScale.dark.bgColor}`};
-
-        & + & {
-            margin-left: 0;
-        }
 
         .RemoveAction {
             align-items: center;
@@ -82,10 +81,6 @@ const SelectedOptions = styled.ul`
     list-style: none;
     margin: 0;
     padding: 0;
-
-    li + li {
-        margin-left: ${({ theme: { spacing } }) => spacing(2)};
-    }
 `;
 
 const FieldWrapper = styled.div`
@@ -127,6 +122,11 @@ const FieldWrapper = styled.div`
 `;
 
 const Wrapper = styled(FormFieldContainer)`
+    > .Field {
+        height: unset;
+        min-height: 38px;
+    }
+
     > input {
         border: none;
         height: 0;
