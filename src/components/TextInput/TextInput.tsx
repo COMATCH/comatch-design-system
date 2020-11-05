@@ -11,6 +11,28 @@ import { Input, Wrapper } from './styled';
 import { TEXTAREA } from './constants';
 import { useHandlers } from './hooks';
 
+function CharacterCounter({
+    currentValue,
+    max,
+    withCharacterCounter,
+}: Pick<ComponentProps, 'max' | 'withCharacterCounter'> & { currentValue: string }) {
+    if (!withCharacterCounter) {
+        return null;
+    }
+
+    if (typeof withCharacterCounter === 'boolean' && (typeof max !== 'number' || max <= 0)) {
+        return null;
+    }
+
+    return (
+        <div className="CharacterCounter">
+            {typeof withCharacterCounter === 'function'
+                ? withCharacterCounter(currentValue, max)
+                : `${currentValue.length}/${max}`}
+        </div>
+    );
+}
+
 const TextInput = forwardRef<HTMLInputElement | HTMLTextAreaElement, ComponentProps>((props, ref) => {
     const {
         name,
@@ -21,17 +43,24 @@ const TextInput = forwardRef<HTMLInputElement | HTMLTextAreaElement, ComponentPr
         hasError = false,
         id,
         label,
+        max,
         message,
         multi = false,
         placeholder = '',
         type = 'text',
+        withCharacterCounter,
     } = props;
 
-    const { currentValue, handleBlur, handleOnChange, handleFocus, isFocused } = useHandlers(props);
+    const { currentValue, exceedsMaxLength, handleBlur, handleOnChange, handleFocus, isFocused } = useHandlers(props);
 
     return (
         <Wrapper
-            className={classnames('TextInput', className, { disabled, hasError, isFocused, multi })}
+            className={classnames('TextInput', className, {
+                disabled,
+                hasError: hasError || exceedsMaxLength,
+                isFocused,
+                multi,
+            })}
             generateCss={generateCss}
             id={id}
         >
@@ -42,7 +71,7 @@ const TextInput = forwardRef<HTMLInputElement | HTMLTextAreaElement, ComponentPr
                     // eslint-disable-next-line @typescript-eslint/no-explicit-any
                     {...(multi ? { as: TEXTAREA as any, rows: 5 } : { type })}
                     {...(currentValue && props.onChange && { value: currentValue })}
-                    className={classnames({ disabled, hasError, isFocused })}
+                    className={classnames({ disabled, hasError: hasError || exceedsMaxLength, isFocused })}
                     id={name}
                     name={name}
                     onBlur={handleBlur}
@@ -58,6 +87,7 @@ const TextInput = forwardRef<HTMLInputElement | HTMLTextAreaElement, ComponentPr
                 )}
             </div>
 
+            <CharacterCounter currentValue={currentValue || ''} max={max} withCharacterCounter={withCharacterCounter} />
             {renderMessage(message, hasError)}
         </Wrapper>
     );

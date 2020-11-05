@@ -10,6 +10,7 @@ export type ComponentProps = WithClassAndId &
         disabled?: boolean;
         hasError?: boolean;
         label?: ReactNode | LabelWithProps;
+        max?: number;
         message?: ReactNode | MessageWithProps;
         multi?: boolean;
         onBlur?: (event: FocusEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
@@ -18,4 +19,5 @@ export type ComponentProps = WithClassAndId &
         placeholder?: string;
         type?: 'email' | 'number' | 'password' | 'tel' | 'text' | 'url';
         value?: string;
+        withCharacterCounter?: boolean | ((currentValue: string, max?: number) => ReactNode);
     };

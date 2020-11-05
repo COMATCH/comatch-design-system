@@ -65,3 +65,22 @@ export const WithError = () => (
         <TextInput hasError label="Test" name="test" message="Test" />
     </PageWrapper>
 );
+
+export const WithCharacterCounter = () => (
+    <PageWrapper>
+        <TextInput multi withCharacterCounter max={10} label="Test" name="test" message="Test" />
+        <TextInput
+            multi
+            withCharacterCounter={(currentValue, max) => (
+                <>
+                    <div>custom counter...</div>
+                    <div>{`${currentValue.length}/${max}`}</div>
+                </>
+            )}
+            max={10}
+            label="Custom counter"
+            name="test"
+            message="Test"
+        />
+    </PageWrapper>
+);
