@@ -79,7 +79,7 @@ export default (
             month,
             year,
         };
-    }, [dateFocus, startOfWeek, today]);
+    }, [dateFocus, max, min, startOfWeek, today]);
 
     const jumpToDate = useMemo(
         () => (date?: MomentInput | 1 | -1) => {
