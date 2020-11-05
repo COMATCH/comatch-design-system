@@ -20,6 +20,12 @@ export const Default = () => (
     </PageWrapper>
 );
 
+export const WithError = () => (
+    <PageWrapper>
+        <DatePicker hasError message="Test error..." name="test" />
+    </PageWrapper>
+);
+
 export const WithMinDate = () => {
     const TODAY = new Date();
     const endDateMin = new Date();

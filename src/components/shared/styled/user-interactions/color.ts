@@ -9,6 +9,18 @@ export default css`
 
     &.hasError {
         color: ${({ theme: { palettes } }) => palettes.error.dark.bgColor};
+
+        &:hover {
+            .FieldIcon:not(.ErrorIndicator),
+            .FieldIcon:not(.ErrorIndicator) svg {
+                color: ${({ theme: { palettes } }) => palettes.greyScale.darker.bgColor};
+            }
+        }
+
+        .FieldIcon:not(.ErrorIndicator),
+        .FieldIcon:not(.ErrorIndicator) svg {
+            color: ${({ theme: { palettes } }) => palettes.greyScale.dark.bgColor};
+        }
     }
 
     &.isFocused:not(.hasError),

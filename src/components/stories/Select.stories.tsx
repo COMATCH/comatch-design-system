@@ -21,6 +21,12 @@ export const Default = () => (
     </PageWrapper>
 );
 
+export const WithError = () => (
+    <PageWrapper>
+        <Select hasError message="Test error..." name="test" options={[]} />
+    </PageWrapper>
+);
+
 export const WithOptions = () => (
     <PageWrapper>
         <Select
