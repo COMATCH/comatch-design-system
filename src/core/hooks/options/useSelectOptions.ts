@@ -46,7 +46,7 @@ export default <T extends Option>(
                 ];
             });
         },
-        [multi, optionsAreEqual, setOptions],
+        [alreadySelectedOptions, multi, optionsAreEqual, setOptions],
     );
 
     return {
