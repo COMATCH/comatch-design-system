@@ -53,6 +53,7 @@ export default <T extends Option>(
         clearAll,
         optionIsSelected,
         options,
+        setOptions,
         toggleOption,
     };
 };

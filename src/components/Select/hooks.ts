@@ -27,7 +27,7 @@ function useHandlers({
         },
     });
     const { options: queriedOptions } = useSearchOptions(options);
-    const { optionIsSelected, options: selectedOptions, toggleOption } = useSelectOptions(
+    const { clearAll, optionIsSelected, options: selectedOptions, setOptions, toggleOption } = useSelectOptions(
         Array.isArray(value) ? value : [...(value ? [value] : [])],
         optionsAreEqual,
         multi,
@@ -72,6 +72,14 @@ function useHandlers({
             onBlur();
         }
     }, [isFocused]);
+
+    useEffect(() => {
+        if (!value || (Array.isArray(value) && !value.length)) {
+            clearAll();
+        } else {
+            setOptions(Array.isArray(value) ? value : [value]);
+        }
+    }, [value]);
 
     return {
         buildOptionHandlers,
