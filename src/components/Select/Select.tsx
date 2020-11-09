@@ -1,8 +1,5 @@
-/* eslint-disable jsx-a11y/interactive-supports-focus */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
-/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
-/* eslint-disable @typescript-eslint/no-unused-vars */
-import React, { memo, useRef } from 'react';
+import React, { memo, ReactNode, useMemo, useRef } from 'react';
 import classnames from 'classnames';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -10,16 +7,79 @@ import { faCaretDown } from '@fortawesome/free-solid-svg-icons/faCaretDown';
 import { faCheck } from '@fortawesome/free-solid-svg-icons/faCheck';
 import { faTimes } from '@fortawesome/free-solid-svg-icons/faTimes';
 
-import { noop } from '../../core';
+import { noop, useCollapseAndFocus } from '../../core';
 import { renderLabel, renderMessage } from '../shared';
 
-import { ComponentProps } from './types';
-import { AvailableOptions, FieldWrapper, Placeholder, SelectedOptionWrapper, SelectedOptions, Wrapper } from './styled';
-import { useHandlers } from './hooks';
+import { ComponentProps, Option } from './types';
+import { useSelected } from './hooks';
+import { AvailableOptions, FieldWrapper, SelectedOptions, Wrapper } from './styled';
+
+function Selected(props: {
+    multi?: boolean;
+    onToggleOption: (option: Option) => void;
+    options: Option[];
+    placeholder?: ReactNode;
+}) {
+    const { multi = false, onToggleOption, options, placeholder } = props;
+
+    return (
+        <SelectedOptions className={classnames('SelectedOptions', { multi })}>
+            {!!placeholder && !options.length && <li className="Placeholder">{placeholder}</li>}
+            {options.map((option, index) => {
+                const onToggle = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+                    event.stopPropagation();
+                    onToggleOption(option);
+                };
+
+                return (
+                    <li key={option.id}>
+                        {multi && (
+                            <button className="Action" onClick={onToggle} type="button" tabIndex={index}>
+                                <FontAwesomeIcon icon={faTimes} />
+                            </button>
+                        )}
+                        {option.label}
+                    </li>
+                );
+            })}
+        </SelectedOptions>
+    );
+}
+
+function Available(props: {
+    multi?: boolean;
+    onToggleOption: (option: Option) => void;
+    optionIsSelected: (option: Option) => boolean;
+    options: Option[];
+}) {
+    const { multi = false, onToggleOption, optionIsSelected, options } = props;
+
+    return (
+        <AvailableOptions className="AvailableOptions">
+            {options.map((option) => {
+                const isSelected = optionIsSelected(option);
+                const onToggle = (event: React.MouseEvent<HTMLLIElement, MouseEvent>) => {
+                    event.stopPropagation();
+                    onToggleOption(option);
+                };
+
+                if (multi && isSelected) {
+                    return null;
+                }
+
+                return (
+                    <li key={option.id} onClick={onToggle} role="menuitem">
+                        <div className="SelectionIndicator">{isSelected && <FontAwesomeIcon icon={faCheck} />}</div>
+                        {option.label}
+                    </li>
+                );
+            })}
+        </AvailableOptions>
+    );
+}
 
 function Select(props: ComponentProps) {
     const {
-        canClear = true,
         className,
         disabled = false,
         generateCss,
@@ -29,20 +89,14 @@ function Select(props: ComponentProps) {
         message,
         multi = false,
         name,
+        options: allOptions,
         placeholder,
     } = props;
 
     const fieldWrapperRef = useRef<HTMLDivElement>(null);
-    const {
-        buildOptionHandlers,
-        buildSelectedOptionHandler,
-        isFocused,
-        isCollapsed,
-        handleToggle,
-        queriedOptions,
-        optionIsSelected,
-        selectedOptions,
-    } = useHandlers({ ...props, fieldWrapperRef });
+    const { options: selected, onToggleOption, optionIsSelected } = useSelected(props);
+    const { isCollapsed, isFocused, toggle: handleToggle } = useCollapseAndFocus(fieldWrapperRef);
+    const inputValue = useMemo(() => selected.map((option) => option.value).join(','), [selected, selected.length]);
 
     return (
         <Wrapper
@@ -51,65 +105,28 @@ function Select(props: ComponentProps) {
             id={id}
         >
             {renderLabel(label, name)}
-
             <FieldWrapper
                 className={classnames('Field', {
-                    canClear: selectedOptions.length && canClear,
                     isFocused,
                     isCollapsed,
                 })}
                 onClick={handleToggle}
                 ref={fieldWrapperRef}
             >
-                <SelectedOptions>
-                    {!!placeholder && !selectedOptions.length && <Placeholder>{placeholder}</Placeholder>}
-                    {selectedOptions.map((option) => {
-                        const optionProps = buildSelectedOptionHandler(option);
-
-                        return (
-                            <SelectedOptionWrapper key={option.id} {...optionProps.wrapper}>
-                                <div {...optionProps.removeAction}>
-                                    <FontAwesomeIcon icon={faTimes} />
-                                </div>
-                                {option.label}
-                            </SelectedOptionWrapper>
-                        );
-                    })}
-                </SelectedOptions>
-
+                <Selected multi={multi} onToggleOption={onToggleOption} options={selected} placeholder={placeholder} />
                 <div className="FieldIcon">
                     <FontAwesomeIcon className="CollapseIndicator" icon={faCaretDown} />
                 </div>
-
-                <AvailableOptions>
-                    {queriedOptions.map((option) => {
-                        const isSelected = optionIsSelected(option);
-
-                        if (isSelected && multi) {
-                            return null;
-                        }
-
-                        return (
-                            <li key={option.id} {...buildOptionHandlers(option)}>
-                                <div className="SelectionIndicator">
-                                    {isSelected && <FontAwesomeIcon icon={faCheck} />}
-                                </div>
-                                {option.label}
-                            </li>
-                        );
-                    })}
-                </AvailableOptions>
+                <Available
+                    multi={multi}
+                    onToggleOption={onToggleOption}
+                    optionIsSelected={optionIsSelected}
+                    options={allOptions}
+                />
             </FieldWrapper>
 
             {/* This is used just to allow users to navigate by using the `tab` */}
-            <input
-                id={name}
-                name={name}
-                onChange={noop}
-                onFocus={handleToggle}
-                value={selectedOptions.map((option) => option.value).join(',')}
-            />
-
+            <input id={name} name={name} onChange={noop} onFocus={handleToggle} value={inputValue} />
             {renderMessage(message, hasError)}
         </Wrapper>
     );

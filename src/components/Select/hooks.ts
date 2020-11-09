@@ -1,96 +1,68 @@
-import { RefObject, useEffect } from 'react';
-import classnames from 'classnames';
-
-import { noop, useCollapseAndFocus, useSearchOptions, useSelectOptions } from '../../core';
-
+import { useEffect, useState } from 'react';
+import { noop } from '../../core';
 import { ComponentProps, Option } from './types';
-import { optionsAreEqual } from './helpers';
 
-function useHandlers({
-    fieldWrapperRef,
-    multi = false,
-    onBlur = noop,
-    onChange = noop,
-    onFocus = noop,
-    options,
-    optionsToggle = true,
-    value,
-}: Pick<ComponentProps, 'multi' | 'onBlur' | 'onChange' | 'onFocus' | 'options' | 'optionsToggle' | 'value'> & {
-    fieldWrapperRef: RefObject<HTMLDivElement>;
-}) {
-    const { isCollapsed, isFocused, toggle: handleToggle } = useCollapseAndFocus(fieldWrapperRef, {
-        onClickOutside: onBlur,
-        onClickInside: () => {
-            if (!isFocused) {
-                onFocus();
+function useSelected({ multi = false, onChange = noop, value }: Pick<ComponentProps, 'multi' | 'onChange' | 'value'>) {
+    const [prevValue, setPrevValue] = useState<Option | Option[]>();
+    const [selected, setSelected] = useState<Option[]>([]);
+    const optionIsSelected = (option: Option) => !!selected.find(({ id }) => id === option.id);
+    const onToggleOption = (option: Option) => {
+        const options = [...selected];
+        const indexWithinSelected = options.findIndex(({ id }) => id === option.id);
+        if (indexWithinSelected >= 0) {
+            options.splice(indexWithinSelected, 1);
+        } else if (!multi) {
+            options[0] = option;
+        } else {
+            options.push(option);
+        }
+
+        setSelected(options);
+        onChange({ value: options });
+    };
+
+    useEffect(
+        function handleValueChanges() {
+            // If the value hasn't changed then skip
+            if (value === prevValue) {
+                return;
             }
+
+            // If the value is to cleared, then reset selected
+            if (!value) {
+                setSelected([]);
+                setPrevValue(value);
+                return;
+            }
+
+            // Since it's not clearing, the component will need to check if the two arrays match
+            // - e.g. if all elements are where they're supposed to be at
+            const newValue = Array.isArray(value) ? value : [value];
+            let shouldUpdateTheSelected = newValue.length !== selected.length;
+            if (!shouldUpdateTheSelected) {
+                for (let x = 0; x < newValue.length; x += 1) {
+                    if (!selected.find(({ id }) => id === newValue[x].id)) {
+                        shouldUpdateTheSelected = true;
+                        break;
+                    }
+                }
+            }
+
+            if (shouldUpdateTheSelected) {
+                setSelected(newValue);
+            }
+
+            // Store the current value for next computation
+            setPrevValue(value);
         },
-    });
-    const { options: queriedOptions } = useSearchOptions(options);
-    const { clearAll, optionIsSelected, options: selectedOptions, setOptions, toggleOption } = useSelectOptions(
-        Array.isArray(value) ? value : [...(value ? [value] : [])],
-        optionsAreEqual,
-        multi,
+        [value],
     );
 
-    const buildOptionHandlers = (option: Option) => ({
-        onClick: (event: React.MouseEvent<HTMLLIElement, MouseEvent>) => {
-            event.persist();
-            event.stopPropagation();
-
-            if (optionsToggle || !optionIsSelected(option)) {
-                toggleOption(option);
-            }
-
-            if (!multi) {
-                handleToggle();
-            }
-        },
-    });
-
-    const buildSelectedOptionHandler = (option: Option) => ({
-        wrapper: {
-            id: option.id,
-            className: classnames({ isPill: multi }),
-        },
-        removeAction: {
-            role: 'button',
-            className: 'UserAction RemoveAction',
-            onClick: (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-                event.stopPropagation();
-                toggleOption(option);
-            },
-        },
-    });
-
-    useEffect(() => {
-        onChange({ value: selectedOptions });
-    }, [selectedOptions]);
-
-    useEffect(() => {
-        if (!isFocused) {
-            onBlur();
-        }
-    }, [isFocused]);
-
-    useEffect(() => {
-        if (!value || (Array.isArray(value) && !value.length)) {
-            clearAll();
-        } else {
-            setOptions(Array.isArray(value) ? value : [value]);
-        }
-    }, [value]);
-
     return {
-        buildOptionHandlers,
-        buildSelectedOptionHandler,
-        isFocused,
-        isCollapsed,
-        handleToggle,
-        queriedOptions,
+        onToggleOption,
+        options: selected,
         optionIsSelected,
-        selectedOptions,
     };
 }
 
-export { useHandlers };
+export { useSelected };

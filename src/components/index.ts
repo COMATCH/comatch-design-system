@@ -10,3 +10,7 @@ export { default as Label, StyledLabel } from './Label';
 export { default as Select, StyledSelect } from './Select';
 export { default as Stepper, StyledStepper } from './Stepper';
 export { default as TextInput, StyledTextInput } from './TextInput';
+
+// Type exports:
+export type { CurrencyFieldValue, CurrencyType } from './Currency';
+export type { SelectOption } from './Select';

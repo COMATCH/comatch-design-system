@@ -1,11 +1,6 @@
 import styled from 'styled-components';
 import { FormFieldContainer } from '../shared';
 
-const Placeholder = styled.div`
-    color: ${({ theme: { palettes } }) => palettes.greyScale.dark.bgColor};
-    margin-left: ${({ theme: { spacing } }) => spacing(2)};
-`;
-
 const AvailableOptions = styled.ul`
     background-color: ${({ theme: { palettes } }) => palettes.greyScale.lighter.bgColor};
     border: 1px solid;
@@ -37,40 +32,10 @@ const AvailableOptions = styled.ul`
         margin: 0 10px;
         width: 14px; /* Comes from the icon's size */
     }
-`;
 
-const SelectedOptionWrapper = styled.li`
-    align-items: center;
-    border: none;
-    border-radius: 3px;
-    color: ${({ theme: { palettes } }) => palettes.greyScale.darker.bgColor};
-    display: flex;
-    line-height: 1.5;
-    margin: ${({ theme: { spacing } }) => `${spacing(1)} 0 ${spacing(1)} ${spacing(1)}`};
-    padding-right: ${({ theme: { spacing } }) => spacing(2)};
-
-    .RemoveAction {
-        display: none;
-
-        svg {
-            color: inherit;
-            cursor: pointer;
-            height: 100%;
-            padding: ${({ theme: { spacing } }) => `0 ${spacing(2)}`};
-        }
-    }
-
-    &:not(.isPill) {
+    .Placeholder {
+        color: ${({ theme: { palettes } }) => palettes.greyScale.dark.bgColor};
         margin-left: ${({ theme: { spacing } }) => spacing(2)};
-    }
-
-    &.isPill {
-        border: ${({ theme: { palettes } }) => `1px solid ${palettes.greyScale.dark.bgColor}`};
-
-        .RemoveAction {
-            align-items: center;
-            display: flex;
-        }
     }
 `;
 
@@ -81,6 +46,42 @@ const SelectedOptions = styled.ul`
     list-style: none;
     margin: 0;
     padding: 0;
+
+    li {
+        align-items: center;
+        border: none;
+        border-radius: 3px;
+        color: ${({ theme: { palettes } }) => palettes.greyScale.darker.bgColor};
+        display: flex;
+        line-height: 1.5;
+        margin: ${({ theme: { spacing } }) => `${spacing(1)} 0 ${spacing(1)} ${spacing(2)}`};
+        padding-right: ${({ theme: { spacing } }) => spacing(2)};
+    }
+
+    &.multi li:not(.Placeholder) {
+        border: ${({ theme: { palettes } }) => `1px solid ${palettes.greyScale.dark.bgColor}`};
+
+        .Action {
+            align-items: center;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            outline: 0 !important;
+            white-space: nowrap;
+
+            svg {
+                color: inherit;
+                cursor: pointer;
+                height: 100%;
+                padding: ${({ theme: { spacing } }) => `0 ${spacing(1)}`};
+            }
+        }
+    }
+
+    &:not(.multi) li .Action {
+        display: none;
+    }
 `;
 
 const FieldWrapper = styled.div`
@@ -144,4 +145,4 @@ const Wrapper = styled(FormFieldContainer)`
     }
 `;
 
-export { AvailableOptions, FieldWrapper, Placeholder, SelectedOptions, SelectedOptionWrapper, Wrapper };
+export { AvailableOptions, FieldWrapper, SelectedOptions, Wrapper };
