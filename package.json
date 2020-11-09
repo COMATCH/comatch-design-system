@@ -1,6 +1,6 @@
 {
     "name": "@comatch/design-system",
-    "version": "0.4.4",
+    "version": "0.5.0",
     "description": "A set of rules and components (react) to simplify work when adopting Comatch styles.",
     "main": "build/index.js",
     "module": "build/index.esm.js",
