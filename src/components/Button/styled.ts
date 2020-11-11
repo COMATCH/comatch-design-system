@@ -3,7 +3,7 @@ import { runCSSGeneratorFunction, WithCssGeneratorFunction } from '../../core';
 
 const Wrapper = styled.button<WithCssGeneratorFunction & { secondary: boolean }>`
     background-color: ${({ secondary, theme: { palettes } }) =>
-        secondary ? palettes.greyScale.lighter.bgColor : palettes.primary.main.bgColor};
+        secondary ? 'transparent' : palettes.primary.main.bgColor};
     border: 1px solid;
     border-color: ${({ theme: { palettes } }) => palettes.primary.main.bgColor};
     border-radius: ${({ theme: { shapes } }) => shapes.borderRadius};
