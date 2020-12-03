@@ -46,6 +46,15 @@ export default createGlobalStyle`
         line-height: ${({ theme: { typography } }) => typography.label.lineHeight};
     }
 
+    ol, ul {
+      font-size: ${({ theme: { typography } }) => typography.body.fontSize};
+      line-height: ${({ theme: { typography } }) => typography.body.lineHeight};
+      
+      li {
+        padding-left: ${({ theme: { spacing } }) => spacing(3)};
+      }
+    }
+    
     html,
     body,
     #root {
