@@ -3,7 +3,10 @@ import { runCSSGeneratorFunction } from './helpers';
 import { WithCssGeneratorFunction } from './types';
 
 const PageWrapper = styled.div<WithCssGeneratorFunction>`
-    padding: 30px 100px;
+    ${({ theme: { breakpoints } }) => breakpoints.lg} {
+        padding: 30px 100px;
+    }
+
     ${runCSSGeneratorFunction}
 `;
 
