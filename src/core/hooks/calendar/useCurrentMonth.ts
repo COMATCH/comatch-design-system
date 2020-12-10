@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import moment, { MomentInput } from 'moment';
 import { CalendarDay } from './types';
 
@@ -18,6 +18,25 @@ export default (
 ) => {
     const [dateFocus, setDateFocus] = useState(moment(todaysDate).startOf('month'));
     const today = useMemo(() => moment(todaysDate), [todaysDate]);
+
+    const jumpToDate = useCallback(
+        (date?: MomentInput | 1 | -1) => {
+            let newDate = moment(date);
+            if (date === 1) newDate = moment(dateFocus).add(1, 'M');
+            if (date === -1) newDate = moment(dateFocus).subtract(1, 'M');
+
+            setDateFocus(newDate.startOf('month'));
+        },
+        [dateFocus, setDateFocus],
+    );
+
+    const goToNextMonth = useCallback(() => {
+        jumpToDate(1);
+    }, [jumpToDate]);
+
+    const goToPrevMonth = useCallback(() => {
+        jumpToDate(-1);
+    }, [jumpToDate]);
 
     const dayCalculations = useMemo(() => {
         const days: CalendarDay[] = [];
@@ -81,30 +100,9 @@ export default (
         };
     }, [dateFocus, max, min, startOfWeek, today]);
 
-    const jumpToDate = useMemo(
-        () => (date?: MomentInput | 1 | -1) => {
-            let newDate = moment(date);
-            if (date === 1) newDate = moment(dateFocus).add(1, 'M');
-            if (date === -1) newDate = moment(dateFocus).subtract(1, 'M');
-
-            setDateFocus(newDate.startOf('month'));
-        },
-        [dateFocus, setDateFocus],
-    );
-
-    const goToNextMonth = useMemo(
-        () => () => {
-            jumpToDate(1);
-        },
-        [jumpToDate],
-    );
-
-    const goToPrevMonth = useMemo(
-        () => () => {
-            jumpToDate(-1);
-        },
-        [jumpToDate],
-    );
+    useEffect(() => {
+        setDateFocus(moment(todaysDate).startOf('month'));
+    }, [today]);
 
     return {
         ...dayCalculations,

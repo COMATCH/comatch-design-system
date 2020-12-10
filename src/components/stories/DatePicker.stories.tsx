@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { PageWrapper } from '../../core/storybook';
 import { DatePicker } from '..';
 
@@ -28,13 +28,19 @@ export const WithError = () => (
 
 export const WithMinDate = () => {
     const TODAY = new Date();
-    const endDateMin = new Date();
     const [start, setStart] = useState<Date>();
+    const [min, setMin] = useState<Date>(TODAY);
+
+    useEffect(() => {
+        const minDate = new Date(start || TODAY);
+        minDate.setDate((start || TODAY).getDate() + 1);
+        setMin(minDate);
+    }, [start]);
 
     return (
         <PageWrapper>
             <DatePicker name="start-date" label="Starting date" min={TODAY} onChange={({ value }) => setStart(value)} />
-            <DatePicker name="end-date" label="Ending date" min={endDateMin.setDate((start || TODAY).getDate() + 1)} />
+            <DatePicker name="end-date" label="Ending date" min={min} />
         </PageWrapper>
     );
 };

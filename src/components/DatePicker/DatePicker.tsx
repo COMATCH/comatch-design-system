@@ -38,7 +38,6 @@ const DatePicker = forwardRef<HTMLInputElement, ComponentProps>((props, ref) => 
         goToNextMonth,
         goToPrevMonth,
         handleUserDeleteAction,
-        handleBlur,
         handleFocus,
         isCollapsed,
         isFocused,
@@ -62,7 +61,6 @@ const DatePicker = forwardRef<HTMLInputElement, ComponentProps>((props, ref) => 
             <div className={classnames('Field', { canClear: !!selectedDate })}>
                 <input
                     readOnly
-                    onBlur={handleBlur}
                     onFocus={handleFocus}
                     onKeyDown={handleUserDeleteAction}
                     placeholder={placeholder}

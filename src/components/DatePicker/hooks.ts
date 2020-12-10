@@ -18,7 +18,7 @@ function useHandlers({
     wrapperRef: RefObject<HTMLDivElement>;
 }) {
     const [selectedDate, setSelectedDate] = useState<Moment | undefined>(value ? moment(value) : undefined);
-    const { weeks, month, year, goToNextMonth, goToPrevMonth } = useCurrentMonth(startOfWeek, today, min, max);
+    const { weeks, month, year, goToNextMonth, goToPrevMonth } = useCurrentMonth(startOfWeek, min || today, min, max);
     const { blur, focus, isFocused } = useFocusElement(wrapperRef);
 
     const [prevMonthIsDisabled, nextMonthIsDisabled] = useMemo(() => {
