@@ -64,15 +64,17 @@ export const Roboto = () => (
                 })}
             </tbody>
         </Table>
+
         <h4>Unordered List</h4>
-        <ul>
+        <ul className="TextList">
             <li>Item 1</li>
             <li>Item 2</li>
             <li>Item 3</li>
             <li>Item 4</li>
         </ul>
+
         <h4>Ordered List</h4>
-        <ol>
+        <ol className="TextList">
             <li>Item 1</li>
             <li>Item 2</li>
             <li>Item 3</li>

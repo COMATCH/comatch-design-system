@@ -6,8 +6,10 @@ const Answer = styled.button`
     border: 2px solid transparent;
     color: inherit;
     cursor: pointer;
-    display: block;
+    display: flex;
     flex: 50% 0;
+    flex-direction: column;
+    justify-content: flex-start;
     min-width: 235px;
     outline: 0 !important;
     padding: ${({ theme: { spacing } }) => `${spacing(4)} ${spacing(6)}`};
@@ -50,6 +52,7 @@ const Answer = styled.button`
         font-weight: 500;
         justify-content: space-between;
         line-height: ${({ theme: { typography } }) => typography.subHeadline2.lineHeight};
+        width: 100%;
     }
 
     .Description {

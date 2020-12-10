@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
-import React, { memo, ReactNode, useMemo, useRef } from 'react';
+import React, { memo, ReactNode, useCallback, useMemo, useRef } from 'react';
 import classnames from 'classnames';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -7,7 +7,7 @@ import { faCaretDown } from '@fortawesome/free-solid-svg-icons/faCaretDown';
 import { faCheck } from '@fortawesome/free-solid-svg-icons/faCheck';
 import { faTimes } from '@fortawesome/free-solid-svg-icons/faTimes';
 
-import { noop, useCollapseAndFocus } from '../../core';
+import { useFocusElement } from '../../core';
 import { renderLabel, renderMessage } from '../shared';
 
 import { ComponentProps, Option } from './types';
@@ -94,9 +94,17 @@ function Select(props: ComponentProps) {
     } = props;
 
     const fieldWrapperRef = useRef<HTMLDivElement>(null);
+    const { blur, focus, isFocused } = useFocusElement(fieldWrapperRef, { toggleOnClickInside: !multi });
     const { options: selected, onToggleOption, optionIsSelected } = useSelected(props);
-    const { isCollapsed, isFocused, toggle: handleToggle } = useCollapseAndFocus(fieldWrapperRef);
     const inputValue = useMemo(() => selected.map((option) => option.value).join(','), [selected, selected.length]);
+
+    const onBlur = useCallback(() => {
+        blur();
+    }, [blur]);
+
+    const onFocus = useCallback(() => {
+        focus();
+    }, [focus]);
 
     return (
         <Wrapper
@@ -106,12 +114,11 @@ function Select(props: ComponentProps) {
         >
             {renderLabel(label, name)}
             <FieldWrapper
+                ref={fieldWrapperRef}
                 className={classnames('Field', {
                     isFocused,
-                    isCollapsed,
+                    isCollapsed: isFocused,
                 })}
-                onClick={handleToggle}
-                ref={fieldWrapperRef}
             >
                 <Selected multi={multi} onToggleOption={onToggleOption} options={selected} placeholder={placeholder} />
                 <div className="FieldIcon">
@@ -126,7 +133,7 @@ function Select(props: ComponentProps) {
             </FieldWrapper>
 
             {/* This is used just to allow users to navigate by using the `tab` */}
-            <input id={name} name={name} onChange={noop} onFocus={handleToggle} value={inputValue} />
+            <input readOnly id={name} name={name} onBlur={onBlur} onFocus={onFocus} value={inputValue} />
             {renderMessage(message, hasError)}
         </Wrapper>
     );

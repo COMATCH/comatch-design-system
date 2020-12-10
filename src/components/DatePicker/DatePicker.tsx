@@ -8,7 +8,7 @@ import { faCalendarAlt } from '@fortawesome/free-solid-svg-icons/faCalendarAlt';
 import { faChevronLeft } from '@fortawesome/free-solid-svg-icons/faChevronLeft';
 import { faChevronRight } from '@fortawesome/free-solid-svg-icons/faChevronRight';
 
-import { noop, uniqueId } from '../../core';
+import { uniqueId } from '../../core';
 import { renderLabel, renderMessage } from '../shared';
 
 import { MONTHS, WEEK_DAYS } from './constants';
@@ -38,6 +38,7 @@ const DatePicker = forwardRef<HTMLInputElement, ComponentProps>((props, ref) => 
         goToNextMonth,
         goToPrevMonth,
         handleUserDeleteAction,
+        handleBlur,
         handleFocus,
         isCollapsed,
         isFocused,
@@ -60,7 +61,8 @@ const DatePicker = forwardRef<HTMLInputElement, ComponentProps>((props, ref) => 
 
             <div className={classnames('Field', { canClear: !!selectedDate })}>
                 <input
-                    onChange={noop}
+                    readOnly
+                    onBlur={handleBlur}
                     onFocus={handleFocus}
                     onKeyDown={handleUserDeleteAction}
                     placeholder={placeholder}

@@ -2,7 +2,7 @@ import { RefObject, useMemo, useState } from 'react';
 import moment, { Moment } from 'moment';
 import classnames from 'classnames';
 
-import { noop, useCollapseAndFocus, useCurrentMonth } from '../../core';
+import { noop, useCurrentMonth, useFocusElement } from '../../core';
 
 import { CalendarDay, ComponentProps } from './types';
 
@@ -19,7 +19,7 @@ function useHandlers({
 }) {
     const [selectedDate, setSelectedDate] = useState<Moment | undefined>(value ? moment(value) : undefined);
     const { weeks, month, year, goToNextMonth, goToPrevMonth } = useCurrentMonth(startOfWeek, today, min, max);
-    const { isCollapsed, isFocused, collapseAndFocus, toggle } = useCollapseAndFocus(wrapperRef);
+    const { blur, focus, isFocused } = useFocusElement(wrapperRef);
 
     const [prevMonthIsDisabled, nextMonthIsDisabled] = useMemo(() => {
         const firstWeek = weeks[0];
@@ -33,7 +33,7 @@ function useHandlers({
         newValue?: Moment,
     ) => {
         setSelectedDate(newValue);
-        toggle();
+        blur();
         onChange({ event, value: newValue?.toDate() });
     };
 
@@ -59,19 +59,18 @@ function useHandlers({
         if (event.key === 'Backspace' || event.key === 'Delete') {
             event.persist();
             selectDate(event, undefined);
-            collapseAndFocus();
+            focus();
         }
     };
-
-    const handleFocus = collapseAndFocus;
 
     return {
         buildDateProps,
         goToNextMonth,
         goToPrevMonth,
         handleUserDeleteAction,
-        handleFocus,
-        isCollapsed,
+        handleBlur: blur,
+        handleFocus: focus,
+        isCollapsed: isFocused,
         isFocused,
         month,
         nextMonthIsDisabled,

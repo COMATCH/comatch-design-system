@@ -1,9 +1,8 @@
 import { createGlobalStyle } from 'styled-components';
+import { CSSGeneratorFunction, runCSSGeneratorFunction, WithCssGeneratorFunction } from '../core';
 import RobotoFontFamily from './fonts/Roboto';
 
-export default createGlobalStyle`
-    ${RobotoFontFamily}
-
+const generateGeneralOverwrites: CSSGeneratorFunction = () => `
     select:-moz-focusring {
         /* This will remove the focus dotted outline appearing */
         /* only on Firefox achieving cross browser uniformity */
@@ -15,51 +14,69 @@ export default createGlobalStyle`
     input[type='search'] {
         box-sizing: border-box;
     }
+`;
 
+const generateTextStyling: CSSGeneratorFunction = ({ theme: { spacing, typography } }) => `
     body {
-        font-size: ${({ theme: { typography } }) => typography.body.fontSize};
-        line-height: ${({ theme: { typography } }) => typography.body.lineHeight};
+        font-size: ${typography.body.fontSize};
+        line-height: ${typography.body.lineHeight};
     }
 
     h1 {
-        font-size: ${({ theme: { typography } }) => typography.headline1.fontSize};
-        line-height: ${({ theme: { typography } }) => typography.headline1.lineHeight};
+        font-size: ${typography.headline1.fontSize};
+        line-height: ${typography.headline1.lineHeight};
     }
 
     h2 {
-        font-size: ${({ theme: { typography } }) => typography.headline2.fontSize};
-        line-height: ${({ theme: { typography } }) => typography.headline2.lineHeight};
+        font-size: ${typography.headline2.fontSize};
+        line-height: ${typography.headline2.lineHeight};
     }
 
     h3 {
-        font-size: ${({ theme: { typography } }) => typography.subHeadline1.fontSize};
-        line-height: ${({ theme: { typography } }) => typography.subHeadline1.lineHeight};
+        font-size: ${typography.subHeadline1.fontSize};
+        line-height: ${typography.subHeadline1.lineHeight};
     }
 
     h4 {
-        font-size: ${({ theme: { typography } }) => typography.subHeadline2.fontSize};
-        line-height: ${({ theme: { typography } }) => typography.subHeadline2.lineHeight};
+        font-size: ${typography.subHeadline2.fontSize};
+        line-height: ${typography.subHeadline2.lineHeight};
     }
 
     label {
-        font-size: ${({ theme: { typography } }) => typography.label.fontSize};
-        line-height: ${({ theme: { typography } }) => typography.label.lineHeight};
+        font-size: ${typography.label.fontSize};
+        line-height: ${typography.label.lineHeight};
     }
 
-    ol, ul {
-      font-size: ${({ theme: { typography } }) => typography.body.fontSize};
-      line-height: ${({ theme: { typography } }) => typography.body.lineHeight};
-      
-      li {
-        padding-left: ${({ theme: { spacing } }) => spacing(3)};
-      }
-    }
+    ol.TextList,
+    ul.TextList {
+        font-size: ${typography.body.fontSize};
+        line-height: ${typography.body.lineHeight};
     
+        > li {
+            padding-left: ${spacing(3)};
+        }
+    }
+`;
+
+const generateRootStyling = (rootElementSelector = '#root'): CSSGeneratorFunction => ({
+    theme: { palettes, typography },
+}) => `
     html,
     body,
-    #root {
-        background-color: ${({ theme: { palettes } }) => palettes.greyScale.lighter.bgColor};
-        color: ${({ theme: { palettes } }) => palettes.greyScale.darker.bgColor};
-        font-family: ${({ theme: { typography } }) => typography.body.fontFamily};
+    ${rootElementSelector} {
+        background-color: ${palettes.greyScale.lighter.bgColor};
+        color: ${palettes.greyScale.darker.bgColor};
+        font-family: ${typography.body.fontFamily};
     }
+`;
+
+export { generateGeneralOverwrites, generateRootStyling, generateTextStyling };
+export default createGlobalStyle<WithCssGeneratorFunction & { rootElementSelector?: string }>`
+    ${RobotoFontFamily}
+
+    ${generateGeneralOverwrites}
+    ${generateTextStyling}
+    ${(props) => generateRootStyling(props.rootElementSelector || '#root')(props)}
+
+    ${runCSSGeneratorFunction}
 `;

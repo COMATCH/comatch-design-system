@@ -11,6 +11,7 @@
    - `yarn lint`
    - `yarn test`
    - `yarn start` (make sure that storybook is working as expected)
+   - `yarn build` (generate the new bundle)
 2. Update the **npm** version and **publish** the package:
    - [`npm version major|minor|patch`](https://docs.npmjs.com/cli/version)
    - `npm publish` (will publish to the *npm registry*)

@@ -54,13 +54,20 @@ function QuestionnaireOption(props: ComponentProps) {
                 const onClick = buildAnswerSelectionHandler(answer);
 
                 return (
-                    <Answer key={id} className={classnames({ selected, 'left-out': leftOut })} onClick={onClick}>
+                    <Answer
+                        key={id}
+                        type="button"
+                        className={classnames({ selected, 'left-out': leftOut })}
+                        onClick={onClick}
+                    >
                         <div className="Title">
                             {title}
                             {selected && <FontAwesomeIcon icon={faCheck} />}
                         </div>
                         <div className="Description">{description}</div>
-                        {name && <input type="radio" id={id} name={name} value={value || id} checked={selected} />}
+                        {name && (
+                            <input readOnly type="radio" id={id} name={name} value={value || id} checked={selected} />
+                        )}
                     </Answer>
                 );
             })}

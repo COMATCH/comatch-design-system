@@ -1,5 +1,13 @@
-export { default as GlobalStyles } from './GlobalStyles';
+export {
+    default as GlobalStyles,
+    generateGeneralOverwrites,
+    generateRootStyling,
+    generateTextStyling,
+} from './GlobalStyles';
+
 export { default as Provider } from './Provider';
+export { default as Roboto } from './fonts/Roboto';
 export { default as theme } from './theme';
-export * from './fonts/Roboto';
+
+export * as RobotoWeighted from './fonts/Roboto';
 export * from './types';
