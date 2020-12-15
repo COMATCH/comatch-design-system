@@ -2,6 +2,7 @@ import { RefObject, useCallback, useEffect, useState } from 'react';
 import { noop } from '../helpers';
 
 type Config = {
+    actionDebounce?: number;
     onBlur?: (event: Event) => void;
     onClickInside?: (event: Event) => void;
     onClickOutside?: (event: Event) => void;
@@ -12,6 +13,7 @@ type Config = {
 export default <T extends HTMLElement>(
     ref: RefObject<T>,
     {
+        actionDebounce = 150,
         onBlur = noop,
         onClickInside = noop,
         onClickOutside = noop,
@@ -22,11 +24,19 @@ export default <T extends HTMLElement>(
     const [isFocused, setIsFocused] = useState(false);
 
     const blur = useCallback(() => {
-        ref.current?.dispatchEvent(new Event('blur'));
+        // Ensures that the user's interactions are captured before this event is distributed;
+        // Fixes misbehaving coming from race conditions
+        setTimeout(() => {
+            ref.current?.dispatchEvent(new Event('blur'));
+        }, actionDebounce);
     }, [ref]);
 
     const focus = useCallback(() => {
-        ref.current?.dispatchEvent(new Event('focus'));
+        // Ensures that the user's interactions are captured before this event is distributed;
+        // Fixes misbehaving coming from race conditions
+        setTimeout(() => {
+            ref.current?.dispatchEvent(new Event('focus'));
+        }, actionDebounce);
     }, [ref]);
 
     useEffect(() => {

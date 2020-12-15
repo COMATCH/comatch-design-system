@@ -63,18 +63,12 @@ function useHandlers({
         }
     };
 
-    const handleBlur = () => {
-        setTimeout(() => {
-            blur();
-        }, 150);
-    };
-
     return {
         buildDateProps,
         goToNextMonth,
         goToPrevMonth,
         handleUserDeleteAction,
-        handleBlur,
+        handleBlur: blur,
         handleFocus: focus,
         isCollapsed: isFocused,
         isFocused,
