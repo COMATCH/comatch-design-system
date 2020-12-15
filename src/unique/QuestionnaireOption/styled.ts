@@ -76,6 +76,8 @@ const Answer = styled.button`
         position: absolute;
         width: 0;
         z-index: -1;
+        -webkit-appearance: none; /* Remove default appearance styling for Webkit */
+        -moz-appearance: none; /* Remove default appearance styling for Firefox */
     }
 
     ${({ theme: { breakpoints } }) => breakpoints.lg} {

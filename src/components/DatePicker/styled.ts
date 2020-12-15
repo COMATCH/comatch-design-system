@@ -116,6 +116,8 @@ const Wrapper = styled(FormFieldContainer)`
         margin: 0;
         padding: ${({ theme: { spacing } }) => `0 ${spacing(2)}`};
         outline: 0;
+        -webkit-appearance: none; /* Remove default appearance styling for Webkit */
+        -moz-appearance: none; /* Remove default appearance styling for Firefox */
     }
 
     ${Calendar} {

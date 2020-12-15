@@ -138,6 +138,8 @@ const Wrapper = styled(FormFieldContainer)`
         position: absolute;
         width: 0;
         z-index: -1;
+        -webkit-appearance: none; /* Remove default appearance styling for Webkit */
+        -moz-appearance: none; /* Remove default appearance styling for Firefox */
     }
 
     &.disabled ${FieldWrapper} {
