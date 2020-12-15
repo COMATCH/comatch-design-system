@@ -3,6 +3,7 @@ export * from './shared';
 export { default as Alert, StyledAlert } from './Alert';
 export { default as Button, StyledButton } from './Button';
 export { default as Checkbox, StyledCheckbox, StyledCheckboxInput } from './Checkbox';
+export { default as Chip, StyledChip } from './Chip';
 export { default as Currency, StyledCurrency } from './Currency';
 export { default as DatePicker, StyledDatePicker } from './DatePicker';
 export { default as HelperText, StyledHelperText } from './HelperText';
