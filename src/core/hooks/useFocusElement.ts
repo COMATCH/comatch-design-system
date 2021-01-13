@@ -67,12 +67,12 @@ export default <T extends HTMLElement>(
             }
         };
 
-        document.addEventListener('mousedown', onDocumentClickListener);
+        document.addEventListener('mouseup', onDocumentClickListener);
         ref.current?.addEventListener('blur', onElementBlurListener);
         ref.current?.addEventListener('focus', onElementFocusListener);
 
         return () => {
-            document.removeEventListener('mousedown', onDocumentClickListener);
+            document.removeEventListener('mouseup', onDocumentClickListener);
             ref.current?.removeEventListener('focus', onElementFocusListener);
             ref.current?.removeEventListener('blur', onElementBlurListener);
         };
