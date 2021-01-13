@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="96px" height="96px" viewBox="0 0 96 96" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Avatar Copy 2</title>
+    <defs>
+        <filter id="filter-1">
+            <feColorMatrix in="SourceGraphic" type="matrix" values="0 0 0 0 0.905882 0 0 0 0 0.968627 0 0 0 0 0.976471 0 0 0 1.000000 0"></feColorMatrix>
+        </filter>
+    </defs>
+    <g id="Avatar-Copy-2" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <rect fill="#FFFFFF" x="0" y="0" width="96" height="96"></rect>
+        <g filter="url(#filter-1)" id="Group-4">
+            <g transform="translate(48.500000, 48.500000) scale(-1, 1) translate(-48.500000, -48.500000) translate(16.000000, 16.000000)">
+                <rect id="Rectangle" fill="#D8D8D8" x="0" y="32.5" width="30.46875" height="32.5"></rect>
+                <circle id="Oval" fill="#D8D8D8" cx="32.5" cy="32.5" r="32.5"></circle>
+            </g>
+        </g>
+        <g id="Group-3" transform="translate(17.116438, 21.000000)" stroke="#053940" stroke-width="3">
+            <circle id="Oval" cx="30.8835616" cy="14" r="12.5"></circle>
+            <rect id="Rectangle" x="2.38356164" y="35.5" width="56" height="53" rx="20.5"></rect>
+        </g>
+    </g>
+</svg>

@@ -1,24 +1,11 @@
 import styled from 'styled-components';
 import { runCSSGeneratorFunction, WithCssGeneratorFunction } from '../../core';
+import { Overlay as SharedOverlay } from '../shared/styled';
 
-const StyledOverlay = styled.div`
-    background-color: rgba(119, 119, 119, 0.25);
-    height: 100vh;
-    left: 0;
-    opacity: 1;
-    overflow-x: hidden;
-    overflow-y: scroll;
-    position: fixed;
-    top: 0;
-    transition: opacity 250ms ease-in;
-    width: 100vw;
-    will-change: opacity, z-index;
-    z-index: 11;
-
-    &.closed {
-        opacity: 0;
-        z-index: -1;
-    }
+const StyledOverlay = styled(SharedOverlay)`
+    height: 100vh !important;
+    position: fixed !important;
+    width: 100vw !important;
 `;
 
 const StyledDialog = styled.div<WithCssGeneratorFunction>`

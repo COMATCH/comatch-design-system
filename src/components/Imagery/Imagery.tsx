@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { buildComponentIdAndClassNameFromProps } from '../../core';
-import defaultAvatar from '../../static/images/default-avatar.svg';
+import defaultAvatar from '../../static/images/avatar-96.svg';
 import { ComponentProps } from './types';
 import { StyledImagery } from './styled';
 
