@@ -7,6 +7,7 @@ export { default as Chip, StyledChip } from './Chip';
 export { default as Currency, StyledCurrency } from './Currency';
 export { default as DatePicker, StyledDatePicker } from './DatePicker';
 export { default as HelperText, StyledHelperText } from './HelperText';
+export { default as Imagery, StyledImagery } from './Imagery';
 export { default as Label, StyledLabel } from './Label';
 export { default as Select, StyledSelect } from './Select';
 export { default as Stepper, StyledStepper } from './Stepper';
