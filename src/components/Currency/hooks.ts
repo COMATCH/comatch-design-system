@@ -10,6 +10,7 @@ function useHandlers({
     value = { ...DEFAULT_VALUE },
     wrapperRef,
 }: Pick<ComponentProps, 'onChange' | 'value'> & { wrapperRef: RefObject<HTMLDivElement> }) {
+    const [prevValue, setPrevValue] = useState(value.value || undefined);
     const [currentValue, setCurrentValue] = useState(value.value || undefined);
     const [currency, setCurrency] = useState(OPTIONS.find((option) => option.label === value.currency) || OPTIONS[0]);
     const { isCollapsed, isFocused, collapseToggle, focusToggle } = useCollapseAndFocus(wrapperRef);
@@ -39,6 +40,13 @@ function useHandlers({
     useEffect(() => {
         onChange({ value: { currency: currency.label, value: currentValue } });
     }, [currency, currentValue]);
+
+    useEffect(() => {
+        if (prevValue === value.value) return;
+
+        setPrevValue(value.value);
+        setCurrentValue(value.value);
+    }, [value.value]);
 
     useOnClickOutside(wrapperRef, () => {
         collapseToggle(false);

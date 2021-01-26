@@ -1,4 +1,4 @@
-import { RefObject, useMemo, useState } from 'react';
+import { RefObject, useEffect, useMemo, useState } from 'react';
 import moment, { Moment } from 'moment';
 import classnames from 'classnames';
 
@@ -17,6 +17,7 @@ function useHandlers({
 }: Pick<ComponentProps, 'max' | 'min' | 'onChange' | 'startOfWeek' | 'today' | 'value'> & {
     wrapperRef: RefObject<HTMLDivElement>;
 }) {
+    const [prevValue, setPrevValue] = useState<Moment | undefined>(value ? moment(value) : undefined);
     const [selectedDate, setSelectedDate] = useState<Moment | undefined>(value ? moment(value) : undefined);
     const { weeks, month, year, goToNextMonth, goToPrevMonth } = useCurrentMonth(startOfWeek, min || today, min, max);
     const { blur, focus, isFocused } = useFocusElement(wrapperRef);
@@ -62,6 +63,14 @@ function useHandlers({
             focus();
         }
     };
+
+    useEffect(() => {
+        if (prevValue === value || typeof value === 'undefined') return;
+
+        const newValue = moment(value);
+        setPrevValue(newValue);
+        setSelectedDate(newValue);
+    }, [value]);
 
     return {
         buildDateProps,
