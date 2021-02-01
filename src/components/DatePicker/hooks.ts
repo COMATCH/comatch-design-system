@@ -67,7 +67,7 @@ function useHandlers({
     useEffect(() => {
         if (prevValue === value || typeof value === 'undefined') return;
 
-        const newValue = moment(value);
+        const newValue = moment(value ? moment(value) : undefined);
         setPrevValue(newValue);
         setSelectedDate(newValue);
     }, [value]);
