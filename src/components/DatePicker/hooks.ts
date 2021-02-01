@@ -65,9 +65,9 @@ function useHandlers({
     };
 
     useEffect(() => {
-        if (prevValue === value || typeof value === 'undefined') return;
+        if (prevValue === value || typeof value === 'undefined' || value === '') return;
 
-        const newValue = moment(value ? moment(value) : undefined);
+        const newValue = moment(value);
         setPrevValue(newValue);
         setSelectedDate(newValue);
     }, [value]);
