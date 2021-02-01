@@ -6,6 +6,7 @@ export { default as Checkbox, StyledCheckbox, StyledCheckboxInput } from './Chec
 export { default as Chip, StyledChip } from './Chip';
 export { default as Currency, StyledCurrency } from './Currency';
 export { default as DatePicker, StyledDatePicker } from './DatePicker';
+export { default as DownloadButton, StyledDownloadButton } from './DownloadButton';
 export { default as HelperText, StyledHelperText } from './HelperText';
 export { default as Label, StyledLabel } from './Label';
 export { default as Select, StyledSelect } from './Select';
