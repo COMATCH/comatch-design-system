@@ -31,6 +31,7 @@ const Drawer = styled.div<WithCssGeneratorFunction & Pick<ComponentProps, 'maxWi
     height: ${({ theme: { spacing } }) => `calc(100% - ${spacing(4)})`};
     margin: 0;
     max-width: 85%;
+    overflow-y: auto;
     padding: ${({ theme: { spacing } }) => `${spacing(4)} ${spacing(4)} 0`};
     position: relative;
 

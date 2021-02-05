@@ -1,6 +1,15 @@
 import React, { useState } from 'react';
+import styled from 'styled-components';
 import { PageWrapper } from '../../core/storybook';
 import { Drawer } from '..';
+
+const Filler = styled.div`
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    height: 300vh;
+    width: 200vw;
+`;
 
 export default {
     title: 'Containers/Drawer',
@@ -49,9 +58,7 @@ export const WithCustomMaxWidth = () => {
             <button onClick={() => setIsOpen(true)} type="button">
                 Open drawer
             </button>
-            <div style={{ height: '200vh', display: 'flex', flexDirection: 'column', justifyContent: 'flex-end' }}>
-                This is a filler
-            </div>
+            <Filler>This is a filler</Filler>
             <Drawer isOpen={isOpen} onClose={closeDrawer} maxWidth={[50, '%']}>
                 Simple drawer
                 <div style={{ width: '150vw' }}>Fun content</div>
@@ -69,12 +76,10 @@ export const WithCustomWidth = () => {
             <button onClick={() => setIsOpen(true)} type="button">
                 Open drawer
             </button>
-            <div style={{ height: '200vh', display: 'flex', flexDirection: 'column', justifyContent: 'flex-end' }}>
-                This is a filler
-            </div>
+            <Filler>This is a filler</Filler>
             <Drawer isOpen={isOpen} onClose={closeDrawer} width={700}>
                 Simple drawer
-                <div style={{ width: '150vw' }}>Fun content</div>
+                <Filler>Fun content</Filler>
             </Drawer>
         </PageWrapper>
     );
