@@ -3,23 +3,39 @@ import { runCSSGeneratorFunction, WithCssGeneratorFunction } from '../../core';
 import { Overlay as SharedOverlay } from '../shared/styled';
 import { ComponentProps } from './types';
 
-const Drawer = styled.div<WithCssGeneratorFunction & Pick<ComponentProps, 'width'>>`
+function renderDrawerMaxWidth({ maxWidth = [85, '%'] }: Pick<ComponentProps, 'maxWidth'>) {
+    if (Array.isArray(maxWidth)) {
+        const [value = 400, units = 'px'] = maxWidth;
+        return `max-width: ${value}${units};`;
+    }
+
+    return `max-width: ${maxWidth}px;`;
+}
+
+function renderDrawerWidth({ width }: Pick<ComponentProps, 'width'>) {
+    if (typeof width === 'undefined') return '';
+
+    if (Array.isArray(width)) {
+        const [value = 400, units = 'px'] = width;
+        return `width: ${value}${units};`;
+    }
+
+    return `width: ${width}px;`;
+}
+
+const Drawer = styled.div<WithCssGeneratorFunction & Pick<ComponentProps, 'maxWidth' | 'width'>>`
     background-color: ${({ theme: { palettes } }) => palettes.greyScale.lighter.bgColor};
     border-radius: ${({ theme: { shapes } }) => shapes.borderRadius};
     box-shadow: ${({ theme: { shadows } }) => shadows[2]};
     color: #474747;
     height: ${({ theme: { spacing } }) => `calc(100% - ${spacing(4)})`};
     margin: 0;
+    max-width: 85%;
     padding: ${({ theme: { spacing } }) => `${spacing(4)} ${spacing(4)} 0`};
     position: relative;
-    width: ${({ width = [400, 'px'] }) => {
-        if (Array.isArray(width)) {
-            const [value = 400, units = 'px'] = width;
-            return `${value}${units}`;
-        }
 
-        return `${width}px`;
-    }};
+    ${renderDrawerMaxWidth}
+    ${renderDrawerWidth}
 
     > .CloseDrawerAction {
         background: none;
@@ -34,21 +50,13 @@ const Drawer = styled.div<WithCssGeneratorFunction & Pick<ComponentProps, 'width
         white-space: nowrap;
     }
 
-    ${({ theme: { breakpoints } }) => breakpoints.lg} {
-        width: ${({ width = [600, 'px'] }) => {
-            if (Array.isArray(width)) {
-                const [value = 600, units = 'px'] = width;
-                return `${value}${units}`;
-            }
-
-            return `${width}px`;
-        }};
-    }
-
     ${runCSSGeneratorFunction}
 `;
 
 const Overlay = styled(SharedOverlay)`
+    display: flex;
+    position: fixed;
+
     ${Drawer} {
         transform: scaleX(1);
         transform-origin: left;

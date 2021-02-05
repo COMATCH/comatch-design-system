@@ -1,4 +1,5 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { FunctionComponent, useEffect, useRef, useState } from 'react';
+import { createPortal } from 'react-dom';
 import classnames from 'classnames';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -8,8 +9,9 @@ import { buildComponentIdAndClassNameFromProps, useOnClickOutside } from '../../
 import { ComponentProps } from './types';
 import { StyledDrawer, StyledOverlay } from './styled';
 
-function Drawer(props: ComponentProps) {
-    const { children, generateCss, isOpen, onClose, ...rest } = props;
+const Drawer: FunctionComponent<ComponentProps> = (props) => {
+    const { children, className, generateCss, id, isOpen, onClose, ...rest } = props;
+    const overlayContainer = useRef(document.createElement('div'));
     const dialogRef = useRef<HTMLDivElement>(null);
     const [showDialog, setShowDialog] = useState(false);
     const handleCloseDialog = () => {
@@ -21,27 +23,36 @@ function Drawer(props: ComponentProps) {
         if (isOpen !== showDialog) setShowDialog(!!isOpen);
     }, [isOpen]);
 
+    useEffect(() => {
+        document.body.appendChild(overlayContainer.current);
+        return () => {
+            document.body.removeChild(overlayContainer.current);
+        };
+    }, []);
+
     useOnClickOutside(dialogRef, (event) => {
         event.stopPropagation();
         handleCloseDialog();
     });
 
-    return (
+    return createPortal(
         <StyledOverlay className={classnames('DialogOverlay', { closed: !showDialog })} role="presentation">
             <StyledDrawer
                 ref={dialogRef}
-                {...buildComponentIdAndClassNameFromProps(rest, 'Dialog')}
+                {...buildComponentIdAndClassNameFromProps({ className, id }, 'Dialog')}
                 generateCss={generateCss}
                 role="dialog"
+                {...rest}
             >
-                {typeof children === 'function' ? children() : children}
+                {typeof children === 'function' ? (children as any)() : children}
                 <button className="CloseDrawerAction" type="button" onClick={handleCloseDialog}>
                     <FontAwesomeIcon className="CloseDrawerAction" icon={faTimes} />
                 </button>
             </StyledDrawer>
-        </StyledOverlay>
+        </StyledOverlay>,
+        overlayContainer.current,
     );
-}
+};
 
 export { StyledDrawer, StyledOverlay };
 export default Drawer;

@@ -29,8 +29,52 @@ export const Controlled = () => {
             <button onClick={() => setIsOpen(true)} type="button">
                 Open drawer
             </button>
+            <div style={{ height: '200vh', display: 'flex', flexDirection: 'column', justifyContent: 'flex-end' }}>
+                This is a filler
+            </div>
             <Drawer isOpen={isOpen} onClose={closeDrawer}>
                 Simple drawer
+                <div style={{ width: '150vw' }}>Fun content</div>
+            </Drawer>
+        </PageWrapper>
+    );
+};
+
+export const WithCustomMaxWidth = () => {
+    const [isOpen, setIsOpen] = useState(true);
+    const closeDrawer = () => setIsOpen(false);
+
+    return (
+        <PageWrapper>
+            <button onClick={() => setIsOpen(true)} type="button">
+                Open drawer
+            </button>
+            <div style={{ height: '200vh', display: 'flex', flexDirection: 'column', justifyContent: 'flex-end' }}>
+                This is a filler
+            </div>
+            <Drawer isOpen={isOpen} onClose={closeDrawer} maxWidth={[50, '%']}>
+                Simple drawer
+                <div style={{ width: '150vw' }}>Fun content</div>
+            </Drawer>
+        </PageWrapper>
+    );
+};
+
+export const WithCustomWidth = () => {
+    const [isOpen, setIsOpen] = useState(true);
+    const closeDrawer = () => setIsOpen(false);
+
+    return (
+        <PageWrapper>
+            <button onClick={() => setIsOpen(true)} type="button">
+                Open drawer
+            </button>
+            <div style={{ height: '200vh', display: 'flex', flexDirection: 'column', justifyContent: 'flex-end' }}>
+                This is a filler
+            </div>
+            <Drawer isOpen={isOpen} onClose={closeDrawer} width={700}>
+                Simple drawer
+                <div style={{ width: '150vw' }}>Fun content</div>
             </Drawer>
         </PageWrapper>
     );
