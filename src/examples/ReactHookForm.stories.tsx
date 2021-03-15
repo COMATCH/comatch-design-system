@@ -232,7 +232,7 @@ export const DynamicSelect = () => {
 
 export const WithCurrency = () => {
     const { control, handleSubmit, watch } = useForm<{
-        price?: { currency: 'CHF' | 'EUR' | 'GBR' | 'USD'; value?: number };
+        price?: { currency: 'CHF' | 'EUR' | 'GBP' | 'USD'; value?: number };
     }>({
         mode: 'all',
         defaultValues: {
