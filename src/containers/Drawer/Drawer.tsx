@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { FunctionComponent, useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import classnames from 'classnames';
